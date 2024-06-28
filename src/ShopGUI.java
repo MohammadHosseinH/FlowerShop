@@ -5,6 +5,8 @@ import java.awt.event.ActionListener;
 
     public class ShopGUI extends JFrame implements ActionListener {
         //Fields and Components
+        Manager manager = new Manager("Admin","admin1","hello","09126027358","Tehran",0);
+        Costumer costumer = new Costumer(null,null,null,null,null);
         Font font = new Font("Adobe Arabic", Font.PLAIN, 18);
         JButton costumerLoginButton = new JButton("ورود کاربر");
         JButton costumerSignupButton = new JButton("ثبت نام کاربر");
@@ -16,6 +18,7 @@ import java.awt.event.ActionListener;
         JTextField addressField = new JTextField();
         JButton confirmSignup = new JButton("ثبت نام");
         JButton confirmCostumerLogin = new JButton("ورود");
+        JButton confirmManagerLogin = new JButton("ورود");
 
         ShopGUI(){
             this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -140,7 +143,34 @@ import java.awt.event.ActionListener;
         }
 
         public void managerLoginPage(){
-            //TODO
+            JPanel loginPanel = new JPanel(null);
+            JLabel userNameLabel = new JLabel("نام کاربری:");
+            userNameLabel.setFont(font);
+            userNameLabel.setBounds(370,200,100,100);
+            loginPanel.add(userNameLabel);
+            JLabel passwordLabel = new JLabel("رمز عبور:");
+            passwordLabel.setFont(font);
+            passwordLabel.setBounds(380,280,100,100);
+            loginPanel.add(passwordLabel);
+
+            userNameField.setBounds(100,240,220,30);
+            loginPanel.add(userNameField);
+            passwordField.setBounds(100,320,220,30);
+            loginPanel.add(passwordField);
+
+            confirmManagerLogin.setBounds(200,450,100,50);
+            loginPanel.add(confirmManagerLogin);
+            confirmManagerLogin.addActionListener(this);
+
+            this.getContentPane().removeAll();
+            this.add(loginPanel);
+            this.repaint();
+            this.revalidate();
+        }
+
+        public void managerLogin(){
+            //TODO checking if manager is match to manager field
+            new ManagerGUI();
         }
 
 
@@ -160,6 +190,9 @@ import java.awt.event.ActionListener;
             }
             else if (e.getSource() == confirmCostumerLogin) {
                 costumerLogin();
+            }
+            else if (e.getSource() == confirmManagerLogin){
+                managerLogin();
             }
         }
     }
