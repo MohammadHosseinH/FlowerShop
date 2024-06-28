@@ -102,10 +102,7 @@ import java.awt.event.ActionListener;
 
         }
         public void costumerSignup(){
-            //TODO validate information and writing in file
-
             new CostumerGUI();
-
         }
 
         public void costumerLoginPage(){
@@ -169,8 +166,14 @@ import java.awt.event.ActionListener;
         }
 
         public void managerLogin(){
-            //TODO checking if manager is match to manager field
-            new ManagerGUI();
+            if (userNameField.getText().equals(manager.getUserName()) && passwordField.equals(manager.getPassword())){
+                new ManagerGUI();
+            }
+            else {
+                //TODO
+                //error
+            }
+
         }
 
 
