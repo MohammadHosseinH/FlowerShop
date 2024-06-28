@@ -2,11 +2,11 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Stack;
 
-    public class Customer extends User {
+    public class Costumer extends User {
         private double balance;
         private Stack<Product> shoppingCart;
 
-        public Customer(String name, String userName, String password, String phoneNumber, String address) {
+        public Costumer(String name, String userName, String password, String phoneNumber, String address) {
             super(name, userName, password, phoneNumber, address);
             this.balance = 0;
             this.shoppingCart = new Stack<>();
