@@ -3,12 +3,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class ShopGUI {
-    import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
     public class ShopGUI extends JFrame implements ActionListener {
         //Fields and Components
         Font font = new Font("Adobe Arabic", Font.PLAIN, 18);
