@@ -2,14 +2,16 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Stack;
 
-    public class Customer extends User{
+    public class Customer extends User {
         private double balance;
         private Stack<Product> shoppingCart;
-        public Customer(String name, String userName,String password, String phoneNumber, String address){
+
+        public Customer(String name, String userName, String password, String phoneNumber, String address) {
             super(name, userName, password, phoneNumber, address);
-            this.balance=0;
-            this.shoppingCart=new Stack<>();
+            this.balance = 0;
+            this.shoppingCart = new Stack<>();
         }
+
         public double getBalance() {
             return balance;
         }
@@ -22,100 +24,100 @@ import java.util.Stack;
             this.balance = balance;
         }
 
-        public void addToShoppingCart(Product product){
+        public void addToShoppingCart(Product product) {
             shoppingCart.push(product);
         }
+
         public void writeInInfoFile(File usersInfoFile) throws IOException {
-            FileWriter fileWriter= new FileWriter(usersInfoFile);
-            BufferedWriter bufferedWriter= new BufferedWriter(fileWriter);
-            bufferedWriter.write(super.getUserName()+","+super.getName()+","+super.getPassword()+","+super.getPhoneNumber()+","+ super.getAddress()+","+getBalance());
+            FileWriter fileWriter = new FileWriter(usersInfoFile);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            bufferedWriter.write(super.getUserName() + "," + super.getName() + "," + super.getPassword() + "," + super.getPhoneNumber() + "," + super.getAddress() + "," + getBalance());
         }
+
         public void writeInShoppingCartFile(File shoppingCartFile, Stack<Product> product) throws IOException {
-            if(isUserExistInShoppingCart) {
-                FileReader fileReader= new FileReader(shoppingCartFile);
-                BufferedReader bufferedReader= new BufferedReader(fileReader);
+            if (Validator.isUserExistInShoppingCart(shoppingCartFile, super.getUserName())) {
+                FileReader fileReader = new FileReader(shoppingCartFile);
+                BufferedReader bufferedReader = new BufferedReader(fileReader);
                 String currentLine;
                 String[] info;
-                ArrayList<String> lines= new ArrayList<>();
-                while ((currentLine= bufferedReader.readLine())!= null) {
+                ArrayList<String> lines = new ArrayList<>();
+                while ((currentLine = bufferedReader.readLine()) != null) {
                     info = currentLine.split(",");
                     if (info[0].equals(super.getUserName())) {
-                        String temp=currentLine.substring(info[0].length()+1);
+                        String temp = currentLine.substring(info[0].length() + 1);
                         while (product.isEmpty()) {
-                            currentLine = currentLine+","+product.peek().getName();
+                            currentLine = currentLine + "," + product.peek().getName();
                         }
-                        currentLine=super.getUserName()+","+currentLine+","+temp;
-                    }
-                    else{
+                        currentLine = super.getUserName() + "," + currentLine + "," + temp;
+                    } else {
                         lines.add(currentLine);
                     }
-                    FileWriter fileWriter= new FileWriter(shoppingCartFile,false);
-                    BufferedWriter bufferedWriter= new BufferedWriter(fileWriter);
+                    FileWriter fileWriter = new FileWriter(shoppingCartFile, false);
+                    BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
                     for (int i = 0; i < lines.size(); i++) {
                         bufferedWriter.write(lines.get(i));
                     }
                 }
-            }
-            else {
-                FileWriter fileWriter= new FileWriter(shoppingCartFile,true);
-                BufferedWriter bufferedWriter= new BufferedWriter(fileWriter);
+            } else {
+                FileWriter fileWriter = new FileWriter(shoppingCartFile, true);
+                BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
                 String info;
-                info=super.getUserName();
-                while (!shoppingCart.isEmpty()){
-                    info=info+","+shoppingCart.peek().getName();
+                info = super.getUserName();
+                while (!shoppingCart.isEmpty()) {
+                    info = info + "," + shoppingCart.peek().getName();
                 }
                 bufferedWriter.write(info);
             }
         }
-        public void changePassword (File userInfo, String newPassword) throws IOException {
+
+        public void changePassword(File userInfo, String newPassword) throws IOException {
             super.setPassword(newPassword);
-            FileReader fileReader= new FileReader(userInfo);
-            BufferedReader bufferedReader= new BufferedReader(fileReader);
+            FileReader fileReader = new FileReader(userInfo);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
             String currentLine;
             String[] info;
-            ArrayList<String> lines= new ArrayList<>();
+            ArrayList<String> lines = new ArrayList<>();
             String temp;
-            while ((currentLine= bufferedReader.readLine())!= null) {
+            while ((currentLine = bufferedReader.readLine()) != null) {
                 info = currentLine.split(",");
                 if (info[0].equals(super.getUserName())) {
-                    temp=info[0]+","+ info[1]+","+newPassword+","+info[3]+","+ info[4]+","+info[5];
+                    temp = info[0] + "," + info[1] + "," + newPassword + "," + info[3] + "," + info[4] + "," + info[5];
                     lines.add(temp);
-                }
-                else{
+                } else {
                     lines.add(currentLine);
                 }
-                FileWriter fileWriter= new FileWriter(userInfo,false);
-                BufferedWriter bufferedWriter= new BufferedWriter(fileWriter);
+                FileWriter fileWriter = new FileWriter(userInfo, false);
+                BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
                 for (int i = 0; i < lines.size(); i++) {
                     bufferedWriter.write(lines.get(i));
                 }
             }
         }
+
         public void changeBalance(File userInfo, double addingBalance) throws IOException {
-            setBalance(getBalance()+addingBalance);
-            FileReader fileReader= new FileReader(userInfo);
-}
-        BufferedReader bufferedReader= new BufferedReader(fileReader);
-        String currentLine;
-        String[] info;
-        ArrayList<String> lines= new ArrayList<>();
-        String temp;
-            while ((currentLine= bufferedReader.readLine())!= null) {
-            info = currentLine.split(",");
-            if (info[0].equals(super.getUserName())) {
-                temp=info[0]+","+ info[1]+","+info[2]+","+info[3]+","+ info[4]+","+ getBalance();
-                lines.add(temp);
-            }
-            else{
-                lines.add(currentLine);
-            }
-            FileWriter fileWriter= new FileWriter(userInfo,false);
-            BufferedWriter bufferedWriter= new BufferedWriter(fileWriter);
-            for (int i = 0; i < lines.size(); i++) {
-                try {
-                    bufferedWriter.write(lines.get(i));
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
+            setBalance(getBalance() + addingBalance);
+            FileReader fileReader = new FileReader(userInfo);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            String currentLine;
+            String[] info;
+            ArrayList<String> lines = new ArrayList<>();
+            String temp;
+            while ((currentLine = bufferedReader.readLine()) != null) {
+                info = currentLine.split(",");
+                if (info[0].equals(super.getUserName())) {
+                    temp = info[0] + "," + info[1] + "," + info[2] + "," + info[3] + "," + info[4] + "," + getBalance();
+                    lines.add(temp);
+                } else {
+                    lines.add(currentLine);
+                }
+                FileWriter fileWriter = new FileWriter(userInfo, false);
+                BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+                for (int i = 0; i < lines.size(); i++) {
+                    try {
+                        bufferedWriter.write(lines.get(i));
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
         }
