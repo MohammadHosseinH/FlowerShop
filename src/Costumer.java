@@ -129,26 +129,3 @@ import java.util.Stack;
             }
         }
     }
-//  public double getPriceOfShoppingCart(){
-
-// }
-
-
-
-
-   /* public ArrayList<String> getShoppingCart(File shoppingCart, String userName) throws IOException {
-        FileReader fileReader= new FileReader(shoppingCart);
-        BufferedReader bufferedReader= new BufferedReader(fileReader);
-        String currentLine;
-        String[] info;
-        ArrayList<String> wantedShoppingCart= new ArrayList<>();
-        while ((currentLine=bufferedReader.readLine())!=null){
-            info=currentLine.split(",");
-            if(info[0].equals(userName)){
-                for (int i = 1; i <info.length ; i++) {
-                    wantedShoppingCart.add(info[i]);
-                }
-                return wantedShoppingCart;
-            }
-        }
-    }*/

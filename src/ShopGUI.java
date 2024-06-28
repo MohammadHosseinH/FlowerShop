@@ -170,6 +170,7 @@ public class ShopGUI extends JFrame implements ActionListener {
                 if(info[0].equals(userName))
                     return info;
             }
+            bufferedReader.close();
             return null;
         }
 
