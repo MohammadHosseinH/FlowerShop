@@ -52,7 +52,6 @@ public class Product {
         this.imagePath = imagePath;
     }
     public void changeName(File products, String name) throws IOException {
-
         for (int i = 0; i < setProductArray(products).size(); i++) {
             if (setProductArray(products).get(i).startsWith(this.name)){
                 this.name = name;

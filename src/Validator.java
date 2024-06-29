@@ -44,7 +44,7 @@ public class Validator {
     }
 
     public static boolean checkPhoneNumber(String phoneNumber) throws IOException {
-        if (!phoneNumber.startsWith("091")){
+        if (!phoneNumber.startsWith("09")){
             return false;
         }
         if (phoneNumber.length() != 11){

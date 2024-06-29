@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
+import java.io.*;
 
 public class ShopGUI extends JFrame implements ActionListener {
         //Fields and Components
@@ -10,7 +10,7 @@ public class ShopGUI extends JFrame implements ActionListener {
         File shoppingCart= new File("shoppingCart.txt");
         File productFile= new File("productsFile.txt");
         Manager manager = new Manager("Admin","admin1","hello","09126027358","Tehran",0);
-        Costumer costumer = new Costumer(null,null,null,null,null);
+        Costumer costumer = new Costumer(null,null,null,null,null,0);
         Font font = new Font("Adobe Arabic", Font.PLAIN, 18);
         JButton costumerLoginButton = new JButton("ورود کاربر");
         JButton costumerSignupButton = new JButton("ثبت نام کاربر");
@@ -105,10 +105,19 @@ public class ShopGUI extends JFrame implements ActionListener {
             this.revalidate();
 
         }
-        public void costumerSignup(){
-            //TODO validate information and writing in file
-
-            new CostumerGUI();
+        public void costumerSignup() throws IOException {
+            String name=nameField.getText();
+            String userName= userNameField.getText();
+            String passWord= passwordField.getText();
+            String phoneNumber= phoneNumberField.getText();
+            String address= addressField.getText();
+            if((!Validator.isUserExist(userInfo,userName))&&Validator.validatePassword(passWord)&&Validator.checkPhoneNumber(phoneNumber)) {
+                costumer= new Costumer(userName,name,passWord,phoneNumber,address,0);
+                costumer.writeInInfoFile(userInfo);
+                new CostumerGUI();
+            }
+            else
+                showErrors("این نام کاربری توسط کاربر دیگری انتخاب شده. طول رمز عبور باید بیشتر از هشت باشد و شامل حروف، عدد و کارکتر باشد. شماره ی تلفن وارد شده اشتباه است.");
 
         }
 
@@ -139,11 +148,30 @@ public class ShopGUI extends JFrame implements ActionListener {
 
 
         }
-
-        public void costumerLogin(){
-            //TODO checking if user exists and password is match
-
-            new CostumerGUI();
+        public void costumerLogin() throws IOException {
+            String userName=userNameField.getText();
+            String password= passwordField.getText();
+            if(Validator.logInCheck(userInfo,userName,password)) {
+                String[] info = showInfo(userInfo,userName);
+                costumer= new Costumer(info[0], info[1] , info[2], info[3], info[4], Double.parseDouble(info[5]));
+                new CostumerGUI();
+            }
+            else
+                showErrors("رمز عبور نادرست است. دوباره تلاش کنید.");
+        }
+        //this method is for getting info for specific user from file
+        public String[] showInfo(File infoFile, String userName) throws IOException {
+            FileReader fileReader= new FileReader(infoFile);
+            BufferedReader bufferedReader= new BufferedReader(fileReader);
+            String currentLine;
+            String[] info;
+            while ((currentLine=bufferedReader.readLine())!=null){
+                info=currentLine.split(",");
+                if(info[0].equals(userName))
+                    return info;
+            }
+            bufferedReader.close();
+            return null;
         }
 
         public void managerLoginPage(){
@@ -176,9 +204,18 @@ public class ShopGUI extends JFrame implements ActionListener {
             //TODO checking if manager is match to manager field
             new ManagerGUI();
         }
+    public void showErrors(String text){
+        JFrame errorFrame= new JFrame("Error");
+        errorFrame.setSize(500,250);
+        //errorFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JPanel errorPanel= new JPanel(new GridLayout(1,1));
+        JLabel showError= new JLabel("<html>" + text + "</html>");
+        errorPanel.add(showError);
+        errorFrame.add(errorPanel);
+        errorFrame.setVisible(true);
+        errorFrame.setResizable(false);
 
-
-
+    }
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -192,10 +229,18 @@ public class ShopGUI extends JFrame implements ActionListener {
                 managerLoginPage();
             }
             else if (e.getSource() == confirmSignup){
-                costumerSignup();
+                try {
+                    costumerSignup();
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
             else if (e.getSource() == confirmCostumerLogin) {
-                costumerLogin();
+                try {
+                    costumerLogin();
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
             else if (e.getSource() == confirmManagerLogin){
                 managerLogin();

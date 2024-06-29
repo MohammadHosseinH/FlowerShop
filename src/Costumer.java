@@ -6,9 +6,9 @@ import java.util.Stack;
         private double balance;
         private Stack<Product> shoppingCart;
 
-        public Costumer(String name, String userName, String password, String phoneNumber, String address) {
+        public Costumer(String name, String userName, String password, String phoneNumber, String address, double balance) {
             super(name, userName, password, phoneNumber, address);
-            this.balance = 0;
+            this.balance = balance;
             this.shoppingCart = new Stack<>();
         }
 
@@ -32,6 +32,7 @@ import java.util.Stack;
             FileWriter fileWriter = new FileWriter(usersInfoFile);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
             bufferedWriter.write(super.getUserName() + "," + super.getName() + "," + super.getPassword() + "," + super.getPhoneNumber() + "," + super.getAddress() + "," + getBalance());
+            bufferedWriter.close();
         }
 
         public void writeInShoppingCartFile(File shoppingCartFile, Stack<Product> product) throws IOException {
@@ -49,15 +50,16 @@ import java.util.Stack;
                             currentLine = currentLine + "," + product.peek().getName();
                         }
                         currentLine = super.getUserName() + "," + currentLine + "," + temp;
-                    } else {
+                    } else
                         lines.add(currentLine);
-                    }
+                }
+                bufferedReader.close();
                     FileWriter fileWriter = new FileWriter(shoppingCartFile, false);
                     BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
                     for (int i = 0; i < lines.size(); i++) {
                         bufferedWriter.write(lines.get(i));
                     }
-                }
+                    bufferedWriter.close();
             } else {
                 FileWriter fileWriter = new FileWriter(shoppingCartFile, true);
                 BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
@@ -67,6 +69,7 @@ import java.util.Stack;
                     info = info + "," + shoppingCart.peek().getName();
                 }
                 bufferedWriter.write(info);
+                bufferedWriter.close();
             }
         }
 
@@ -86,11 +89,13 @@ import java.util.Stack;
                 } else {
                     lines.add(currentLine);
                 }
+                bufferedReader.close();
                 FileWriter fileWriter = new FileWriter(userInfo, false);
                 BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
                 for (int i = 0; i < lines.size(); i++) {
                     bufferedWriter.write(lines.get(i));
                 }
+                bufferedWriter.close();
             }
         }
 
@@ -110,6 +115,7 @@ import java.util.Stack;
                 } else {
                     lines.add(currentLine);
                 }
+                bufferedReader.close();
                 FileWriter fileWriter = new FileWriter(userInfo, false);
                 BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
                 for (int i = 0; i < lines.size(); i++) {
@@ -119,29 +125,7 @@ import java.util.Stack;
                         throw new RuntimeException(e);
                     }
                 }
+                bufferedWriter.close();
             }
         }
     }
-//  public double getPriceOfShoppingCart(){
-
-// }
-
-
-
-
-   /* public ArrayList<String> getShoppingCart(File shoppingCart, String userName) throws IOException {
-        FileReader fileReader= new FileReader(shoppingCart);
-        BufferedReader bufferedReader= new BufferedReader(fileReader);
-        String currentLine;
-        String[] info;
-        ArrayList<String> wantedShoppingCart= new ArrayList<>();
-        while ((currentLine=bufferedReader.readLine())!=null){
-            info=currentLine.split(",");
-            if(info[0].equals(userName)){
-                for (int i = 1; i <info.length ; i++) {
-                    wantedShoppingCart.add(info[i]);
-                }
-                return wantedShoppingCart;
-            }
-        }
-    }*/
