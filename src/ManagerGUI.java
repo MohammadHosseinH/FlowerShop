@@ -1,7 +1,9 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -13,6 +15,7 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
     ArrayList<Product> products = new ArrayList<>();
     ArrayList<Costumer> costumers = new ArrayList<>();
     ArrayList<JButton> productButtonsList = new ArrayList<>();
+    String currentPanel;
     JButton showProductsButton = new JButton("نمایش محصولات");
     JButton showUsersButton = new JButton("نمایش کاربران");
     JButton addProductButton = new JButton("افزودن کالا");
@@ -20,9 +23,15 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
     JButton backButton = new JButton("بازگشت");
     JButton productButton = new JButton();
 
+    JButton editName = new JButton("تغییر");
+    JButton editPrice = new JButton("تغییر");
+    JButton editInventory = new JButton("تغییر");
+    MyScrollable mainScrollable = new MyScrollable("Main Scrollable");
+    JPanel menuPanel = new JPanel(null);
+
     ManagerGUI(){
         try {
-            setProductArray(productFile);
+            setProductsArray(productFile);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -31,7 +40,6 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
     }
 
     public void menuPage(){
-        JPanel menuPanel = new JPanel(null);
         showProductsButton.setFont(font);
         showProductsButton.setBounds(150,100,200,40);
         menuPanel.add(showProductsButton);
@@ -56,18 +64,15 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
         this.revalidate();
     }
     public void showProductPage(){
+        currentPanel = "show product list";
         this.getContentPane().removeAll();
-        MyScrollable mainScrollable = new MyScrollable("Main Scrollable");
         mainScrollable.setLayout(new GridLayout(0, 1));
 
         for (Product p : products) {
             String name = p.getName();
-            productButton.setName(name);
-            productButton.setBorder(BorderFactory.createLineBorder(Color.blue));
+            productButton.setText(name);
             productButton.setLayout(new BorderLayout());
-            productButton.add(new JLabel(productButton.getName()));
             mainScrollable.add(productButton);
-
             productButton.addActionListener(this);
             productButtonsList.add(productButton);
         }
@@ -88,6 +93,7 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
             }
         };
         mainScrollable.add(backButton);
+        backButton.addActionListener(this);
         scrollPane.setViewport(viewport);
         this.setLayout(new BorderLayout());
         this.add(scrollPane);
@@ -104,10 +110,52 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
     }
 
     public void productsInfoPage(Product product){
-        //TODO
+        currentPanel = "product info";
+        BufferedImage bufferedImage = null;
+        System.out.println(product.getImagePath());
+        try {
+            bufferedImage = ImageIO.read(new File(product.getImagePath()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        JLabel imageLabel = new JLabel();
+        imageLabel.setBounds(175,50,150,150);
+        Image image = bufferedImage.getScaledInstance(imageLabel.getWidth(), imageLabel.getHeight(), Image.SCALE_SMOOTH);
+        ImageIcon imageIcon = new ImageIcon(image);
+        imageLabel.setIcon(imageIcon);
+        JLabel nameLabel = new JLabel("نام محصول : " + product.getName());
+        JLabel priceLabel = new JLabel("قیمت : " + product.getPrice() + " تومان");
+        JLabel inventoryLabel = new JLabel("موجودی انبار: " + product.getInventory() + " دسته");
+
+        JPanel productInfoPanel = new JPanel(null);
+        productInfoPanel.add(imageLabel);
+        nameLabel.setBounds(310,260,200,20);
+        productInfoPanel.add(nameLabel);
+        priceLabel.setBounds(320,330,200,20);
+        productInfoPanel.add(priceLabel);
+        inventoryLabel.setBounds(300,400,200,20);
+        productInfoPanel.add(inventoryLabel);
+        editName.setBounds(50,260,80,20);
+        productInfoPanel.add(editName);
+        editPrice.setBounds(50,330,80,20);
+        productInfoPanel.add(editPrice);
+        editInventory.setBounds(50,400,80,20);
+        productInfoPanel.add(editInventory);
+        backButton.setBounds(200,480,100,40);
+        productInfoPanel.add(backButton);
+
+        editName.addActionListener(this);
+        editPrice.addActionListener(this);
+        editInventory.addActionListener(this);
+        backButton.addActionListener(this);
+
+        this.getContentPane().removeAll();
+        this.add(productInfoPanel);
+        this.repaint();
+        this.revalidate();
     }
 
-    public void setProductArray(File productsFile) throws IOException {
+    public void setProductsArray(File productsFile) throws IOException {
         FileReader fileReader =new FileReader(productsFile);
         BufferedReader bufferedReader = new BufferedReader(fileReader);
         String line;
@@ -120,83 +168,41 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
         bufferedReader.close();
     }
 
+    public void back(){
+        this.getContentPane().removeAll();
+        if(currentPanel.equals("show product list")) {
+            menuPage();
+        }
+        else if(currentPanel.equals("product info")){
+            showProductPage();
+        }
+        this.repaint();
+        this.revalidate();
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == showProductsButton){
             showProductPage();
         }
-
-        //TODO
-
-
-
+        if (e.getSource() == editName){
+            //TODO
+        }
+        if (e.getSource() == editPrice){
+            //TODO
+        }
+        if(e.getSource() == editInventory){
+            //TODO
+        }
+        if(e.getSource() == backButton){
+            back();
+        }
         for (int i = 0; i < productButtonsList.size(); i++){
             if (e.getSource() == productButtonsList.get(i)){
+                productButtonsList = new ArrayList<>();
                 productsInfoPage(products.get(i));
+                break;
             }
         }
     }
-}
-
-
-@SuppressWarnings("serial")
-class MyScrollable extends JComponent implements Scrollable {
-    public static final int VP_WIDTH = 200;
-    private static final int ROW_COUNT = 40;
-
-    public MyScrollable(String name) {
-        super.setName(name);
-    }
-
-    @Override
-    public Dimension getPreferredScrollableViewportSize() {
-        Component[] comps = getComponents();
-        if (comps.length > 0) {
-            int height = ROW_COUNT * comps[0].getPreferredSize().height;
-            return new Dimension(VP_WIDTH, height);
-        }
-
-        return super.getPreferredSize();
-    }
-
-    @Override
-    public Dimension getPreferredSize() {
-        return super.getPreferredSize();
-    }
-
-    @Override
-    public int getScrollableBlockIncrement(Rectangle visibleRect, int orientation, int direction) {
-        if (orientation == SwingConstants.HORIZONTAL) {
-            return VP_WIDTH;
-        }
-        Component[] comps = getComponents();
-        if (comps.length > 0) {
-            return comps[0].getHeight() * (3 * ROW_COUNT / 4);
-        }
-
-        return getSize().height / 3;
-    }
-
-    @Override
-    public boolean getScrollableTracksViewportHeight() {
-        return false;
-    }
-
-    @Override
-    public boolean getScrollableTracksViewportWidth() {
-        return true;
-    }
-
-    @Override
-    public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction) {
-        if (orientation == SwingConstants.HORIZONTAL) {
-            return VP_WIDTH;
-        }
-        Component[] comps = getComponents();
-        if (comps.length > 0) {
-            return comps[0].getHeight();
-        }
-        return getSize().height / 3;
-    }
-
 }
