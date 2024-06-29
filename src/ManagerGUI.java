@@ -154,6 +154,7 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
 
         confirmAddProduct.setBounds(175, 425, 150, 40);
         confirmAddProduct.setFont(font);
+        confirmAddProduct.addActionListener(this);
 
 
         addProductPanel.add(productInfo);
@@ -165,6 +166,11 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
         addProductPanel.add(enteredProductInventory);
         addProductPanel.add(addProductImage);
         addProductPanel.add(confirmAddProduct);
+
+        this.getContentPane().removeAll();
+        this.add(addProductPanel);
+        this.repaint();
+        this.revalidate();
     }
 
     public void searchPage(){
@@ -182,6 +188,11 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
         searchPanel.add(searchLabel);
         searchPanel.add(searchField);
         searchPanel.add(searchButton);
+
+        this.getContentPane().removeAll();
+        this.add(searchPanel);
+        this.repaint();
+        this.revalidate();
     }
 
     public boolean search() throws IOException {
@@ -273,6 +284,12 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == showProductsButton){
             showProductPage();
+        }
+        if(e.getSource() == addProductButton){
+            addProductPage();
+        }
+        if (e.getSource() == searchProductButton){
+            searchPage();
         }
         if (e.getSource() == editName){
             //TODO
