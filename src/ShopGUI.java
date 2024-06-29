@@ -2,9 +2,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
-    public class ShopGUI extends JFrame implements ActionListener {
+public class ShopGUI extends JFrame implements ActionListener {
         //Fields and Components
+        File userInfo= new File("userInfo.txt");
+        File shoppingCart= new File("shoppingCart.txt");
+        File productFile= new File("productsFile.txt");
         Manager manager = new Manager("Admin","admin1","hello","09126027358","Tehran",0);
         Costumer costumer = new Costumer(null,null,null,null,null);
         Font font = new Font("Adobe Arabic", Font.PLAIN, 18);
@@ -172,6 +176,8 @@ import java.awt.event.ActionListener;
             //TODO checking if manager is match to manager field
             new ManagerGUI();
         }
+
+
 
 
         @Override

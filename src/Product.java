@@ -6,14 +6,13 @@ public class Product {
     private String name;
     private double price;
     private int inventory;
-    private ImageIcon image;
     private String imagePath;
     ArrayList<String> productsList = new ArrayList<>();
-    public Product(String name, double price, int inventory, ImageIcon image) throws IOException {
+    public Product(String name, double price, int inventory, String imagePath) throws IOException {
         this.name = name;
         this.price = price;
         this.inventory = inventory;
-        this.image = image;
+        this.imagePath = imagePath;
     }
     public void addProductInFile(File products) throws IOException {
         FileWriter fileWriter = new FileWriter(products);
@@ -47,9 +46,6 @@ public class Product {
     }
     public int getInventory() {
         return inventory;
-    }
-    public ImageIcon getImage() {
-        return image;
     }
 
     public void setImagePath(String imagePath) {
@@ -91,8 +87,5 @@ public class Product {
 
     public void setInventory(int inventory) {
         this.inventory = inventory;
-    }
-    public void setImage(ImageIcon image) {
-        this.image = image;
     }
 }
