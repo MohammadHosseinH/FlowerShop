@@ -55,7 +55,7 @@ import java.util.ArrayList;
                     while ((currentLine = bufferedReader1.readLine()) != null) {
                         info = currentLine.split(",");
                         if (info[0].equals(items[i])) {
-                            usersShoppingCart.add(new Product(info[0], Double.parseDouble(info[2]), Integer.parseInt(info[3]), info[1]));
+                            usersShoppingCart.add(new Product(info[0], Double.parseDouble(info[2]), Integer.parseInt(info[3]), info[1],Integer.parseInt(info[4]),Double.parseDouble(info[5])));
                         }
                     }
                     bufferedReader1.close();

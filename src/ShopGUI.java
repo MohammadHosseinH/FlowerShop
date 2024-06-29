@@ -257,11 +257,10 @@ public class ShopGUI extends JFrame implements ActionListener {
     public void setProductsArray() throws IOException {
         FileReader fileReader =new FileReader(productFile);
         BufferedReader bufferedReader = new BufferedReader(fileReader);
-        String line;
-        int i = 0;
-        while ((line = bufferedReader.readLine()) != null){
-            String[] lines = line.split(",");
-            Product tempProduct = new Product(lines[0] , Double.parseDouble(lines[2]) , Integer.parseInt(lines[3]) , lines[1]);
+        String currentLine;
+        while ((currentLine= bufferedReader.readLine()) != null){
+            String[] info = currentLine.split(",");
+            Product tempProduct = new Product(info[0] , Double.parseDouble(info[2]) , Integer.parseInt(info[3]) , info[1],Integer.parseInt(info[4]),Double.parseDouble(info[5]));
             products.add(tempProduct);
         }
         bufferedReader.close();
@@ -281,28 +280,8 @@ public class ShopGUI extends JFrame implements ActionListener {
     }
     public void resetProductInventory() throws IOException {
         ArrayList<Product> items=costumer.getUsersShoppingCart();
-        FileReader fileReader= new FileReader(productFile);
-        BufferedReader bufferedReader= new BufferedReader(fileReader);
-        String currentLine;
-        String[] info;
-        ArrayList<String> lines = new ArrayList<>();
         for (int i = 0; i < items.size(); i++) {
-            while ((currentLine = bufferedReader.readLine()) != null) {
-                info = currentLine.split(",");
-                if (info[0].equals(items.get(i).getName())) {
-                    items.get(i).setInventory(items.get(i).getInventory()-1);
-                    lines.add(info[0] + "," + info[1] +","+ info[2]+","+items.get(i).getInventory());
-                } else {
-                    lines.add(currentLine);
-                }
-                bufferedReader.close();
-                FileWriter fileWriter = new FileWriter(userInfo, false);
-                BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-                for (int j = 0; j < lines.size(); j++) {
-                    bufferedWriter.write(lines.get(j));
-                }
-                bufferedWriter.close();
-            }
+            items.get(i).changeInventory(productFile, items.get(i).getInventory()-1);
         }
     }
         @Override
