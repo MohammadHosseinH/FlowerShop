@@ -78,15 +78,15 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
         MyScrollable mainScrollable = new MyScrollable("Main Scrollable");
         this.getContentPane().removeAll();
         mainScrollable.setLayout(new GridLayout(0, 1));
-
+        productButtonsList = new ArrayList<>();
         for (Product p : products) {
             String name = p.getName();
+            productButton = new JButton();
             productButton.setText(name);
             productButton.setLayout(new BorderLayout());
             productButton.setBackground(Color.WHITE);
             productButton.setBorder(BorderFactory.createLineBorder(new Color(72,61,139)));
 
-            productButton.add(new JLabel(productButton.getName()));
             mainScrollable.add(productButton);
             productButton.addActionListener(this);
             productButtonsList.add(productButton);
@@ -154,8 +154,6 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
         confirmAddProduct.setBackground(Color.WHITE);
         confirmAddProduct.setBorder(BorderFactory.createLineBorder(new Color(72,61,139)));
 
-
-
         addProductPanel.add(productInfo);
         addProductPanel.add(productName);
         addProductPanel.add(productPrice);
@@ -183,17 +181,13 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
 
     }
 
-    public void addProduct(){
+    public void addProduct() throws IOException {
         String name = productNameField.getText();
         double price = Double.parseDouble(priceField.getText());
         int inventory = Integer.parseInt(inventoryField.getText());
-        try {
-            Product tempProduct = new Product(name,price,inventory,path);
-            products.add(tempProduct);
-            tempProduct.addProductInFile(productFile);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        Product tempProduct = new Product(name,price,inventory,path);
+        products.add(tempProduct);
+        tempProduct.addProductInFile(productFile);
         showMessages("کالا با موفقیت افزوده شد");
     }
 
@@ -367,9 +361,6 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
         if(e.getSource() == chooseImageButton){
             path = chooseImage();
         }
-        if(e.getSource() == confirmAddProduct){
-            addProduct();
-        }
         if (e.getSource() == editName){
             //TODO
         }
@@ -387,7 +378,11 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
         }
 
         if (e.getSource() == confirmAddProduct){
-            addProduct();
+            try {
+                addProduct();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
             back();
         }
         if (e.getSource() == searchProductButton){
@@ -406,7 +401,6 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
         for (int i = 0; i < productButtonsList.size(); i++){
             if (e.getSource() == productButtonsList.get(i)){
                 currentPanel = "product info";
-                productButtonsList = new ArrayList<>();
                 productsInfoPage(products.get(i));
                 break;
             }

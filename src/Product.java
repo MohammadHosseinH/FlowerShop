@@ -15,7 +15,7 @@ public class Product {
     public void addProductInFile(File products) throws IOException {
         FileWriter fileWriter = new FileWriter(products,true);
         BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-        bufferedWriter.write(name + "," + imagePath + "," + price + "," + inventory);
+        bufferedWriter.write(name + "," + imagePath + "," + price + "," + inventory + "\n");
         bufferedWriter.close();
     }
 
