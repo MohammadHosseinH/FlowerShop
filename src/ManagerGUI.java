@@ -19,6 +19,9 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
     JButton searchProductButton = new JButton("جستجوی کالا");
     JButton backButton = new JButton("بازگشت");
     JButton productButton = new JButton();
+    JButton confirmAddProduct = new JButton("ثبت");
+    JButton searchButton = new JButton("جست و جو");
+    JTextField searchField = new JTextField();
 
     ManagerGUI(){
         try {
@@ -96,7 +99,76 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
     }
 
     public void addProductPage(){
-        //TODO
+        JPanel addProductPanel = new JPanel(null);
+
+        JLabel productInfo = new JLabel("مشخصات کالا");
+        productInfo.setBounds(200, 100, 100, 30);
+        productInfo.setFont(font);
+
+        JLabel productName = new JLabel("نام کالا");
+        productName.setBounds(100 , 175 , 50, 30);
+        productName.setFont(font);
+        JTextField enteredProductName = new JTextField();
+        enteredProductName.setBounds(200, 175, 200,30);
+
+        JLabel productPrice = new JLabel("قیمت");
+        productPrice.setBounds(100 , 225 , 50, 30);
+        productPrice.setFont(font);
+        JTextField enteredProductPrice = new JTextField();
+        enteredProductPrice.setBounds(200,225,200,30);
+
+        JLabel productInventory = new JLabel("موجودی");
+        productInventory.setBounds(100 , 275 , 50, 30);
+        productInventory.setFont(font);
+        JTextField enteredProductInventory = new JTextField();
+        enteredProductInventory.setBounds(200,275,200,30);
+
+
+        //it should change to select image
+        JButton addProductImage = new JButton("افزودن عکس");
+        addProductImage.setBounds(175, 350, 150, 40);
+        addProductImage.setFont(font);
+
+        confirmAddProduct.setBounds(175, 425, 150, 40);
+        confirmAddProduct.setFont(font);
+
+
+        addProductPanel.add(productInfo);
+        addProductPanel.add(productName);
+        addProductPanel.add(productPrice);
+        addProductPanel.add(enteredProductPrice);
+        addProductPanel.add(enteredProductName);
+        addProductPanel.add(productInventory);
+        addProductPanel.add(enteredProductInventory);
+        addProductPanel.add(addProductImage);
+        addProductPanel.add(confirmAddProduct);
+    }
+
+    public void searchPage(){
+        JPanel searchPanel = new JPanel(null);
+
+        JLabel searchLabel = new JLabel("عبارت مورد نظر را تایپ کنید");
+        searchLabel.setFont(font);
+        searchLabel.setBounds(150,150, 300,30);
+
+        searchField.setBounds(150, 250,200,30);
+
+        searchButton.setFont(font);
+        searchButton.setBounds(175, 350, 150,40);
+
+        searchPanel.add(searchLabel);
+        searchPanel.add(searchField);
+        searchPanel.add(searchButton);
+    }
+
+    public boolean search() throws IOException {
+        boolean flag = false;
+        for (int i = 0; i < arrangeProductArray(productFile).size(); i++) {
+            if (arrangeProductArray(productFile).get(i).contains(searchField.getText())){
+                flag = true;
+            }
+        }
+        return flag;
     }
 
     public void usersListPage(){
@@ -126,9 +198,24 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
             showProductPage();
         }
 
-        //TODO
-
-
+        if (e.getSource() == confirmAddProduct){
+            //TODO
+        }
+        if (e.getSource() == searchProductButton){
+            searchPage();
+        }
+        if (e.getSource() == searchButton){
+            try {
+                if (search()){
+                    //TODO
+                }
+                else {
+                    showErrors("کالا مورد نظر یافت نشد.");
+                }
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        }
 
         for (int i = 0; i < productButtonsList.size(); i++){
             if (e.getSource() == productButtonsList.get(i)){
