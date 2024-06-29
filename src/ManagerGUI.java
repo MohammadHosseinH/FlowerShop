@@ -114,6 +114,10 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
         };
         mainScrollable.add(backButton);
         backButton.addActionListener(this);
+        backButton.setBackground(Color.WHITE);
+        backButton.setBorder(BorderFactory.createLineBorder(new Color(72,61,139)));
+        scrollPane.setBackground(backGroundColor);
+
         scrollPane.setViewport(viewport);
         this.setLayout(new BorderLayout());
         this.add(scrollPane);
@@ -123,6 +127,7 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
 
     public void addProductPage(){
         JPanel addProductPanel = new JPanel(null);
+        addProductPanel.setBackground(backGroundColor);
 
         JLabel productInfo = new JLabel("مشخصات کالا");
         productInfo.setBounds(200, 100, 100, 30);
@@ -151,10 +156,16 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
         JButton addProductImage = new JButton("افزودن عکس");
         addProductImage.setBounds(175, 350, 150, 40);
         addProductImage.setFont(font);
+        addProductImage.setBackground(Color.WHITE);
+        addProductImage.setBorder(BorderFactory.createLineBorder(new Color(72,61,139)));
+
 
         confirmAddProduct.setBounds(175, 425, 150, 40);
         confirmAddProduct.setFont(font);
         confirmAddProduct.addActionListener(this);
+        confirmAddProduct.setBackground(Color.WHITE);
+        confirmAddProduct.setBorder(BorderFactory.createLineBorder(new Color(72,61,139)));
+
 
 
         addProductPanel.add(productInfo);
@@ -184,6 +195,9 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
 
         searchButton.setFont(font);
         searchButton.setBounds(175, 350, 150,40);
+        searchButton.setBackground(Color.WHITE);
+        searchButton.setBorder(BorderFactory.createLineBorder(new Color(72,61,139)));
+
 
         searchPanel.add(searchLabel);
         searchPanel.add(searchField);
@@ -196,13 +210,7 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
     }
 
     public boolean search() throws IOException {
-        boolean flag = false;
-        for (int i = 0; i < arrangeProductArray(productFile).size(); i++) {
-            if (arrangeProductArray(productFile).get(i).contains(searchField.getText())){
-                flag = true;
-            }
-        }
-        return flag;
+        return true;
     }
 
     public void usersListPage(){
@@ -228,6 +236,7 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
         JLabel inventoryLabel = new JLabel("موجودی انبار: " + product.getInventory() + " دسته");
 
         JPanel productInfoPanel = new JPanel(null);
+        productInfoPanel.setBackground(backGroundColor);
         productInfoPanel.add(imageLabel);
         nameLabel.setBounds(310,260,200,20);
         productInfoPanel.add(nameLabel);
@@ -236,12 +245,28 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
         inventoryLabel.setBounds(300,400,200,20);
         productInfoPanel.add(inventoryLabel);
         editName.setBounds(50,260,80,20);
+        editName.setFont(font);
+        editName.setBackground(Color.WHITE);
+        editName.setBorder(BorderFactory.createLineBorder(new Color(72,61,139)));
+
         productInfoPanel.add(editName);
         editPrice.setBounds(50,330,80,20);
+        editPrice.setFont(font);
+        editPrice.setBackground(Color.WHITE);
+        editPrice.setBorder(BorderFactory.createLineBorder(new Color(72,61,139)));
+
         productInfoPanel.add(editPrice);
         editInventory.setBounds(50,400,80,20);
+        editInventory.setFont(font);
+        editInventory.setBackground(Color.WHITE);
+        editInventory.setBorder(BorderFactory.createLineBorder(new Color(72,61,139)));
+
         productInfoPanel.add(editInventory);
         backButton.setBounds(200,480,100,40);
+        backButton.setFont(font);
+        backButton.setBackground(Color.WHITE);
+        backButton.setBorder(BorderFactory.createLineBorder(new Color(72,61,139)));
+
         productInfoPanel.add(backButton);
 
         editName.addActionListener(this);

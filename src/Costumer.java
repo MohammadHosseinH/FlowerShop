@@ -30,7 +30,7 @@ import java.util.ArrayList;
         public void writeInInfoFile(File usersInfoFile) throws IOException {
             FileWriter fileWriter = new FileWriter(usersInfoFile,true);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-            bufferedWriter.write(super.getUserName() + "," + super.getName() + "," + super.getPassword() + "," + super.getPhoneNumber() + "," + super.getAddress() + "," + getBalance());
+            bufferedWriter.write(super.getUserName() + "," + super.getName() + "," + super.getPassword() + "," + super.getPhoneNumber() + "," + super.getAddress() + "," + getBalance()+"\n");
             bufferedWriter.close();
         }
         //to adjust shoppingCart when user login again.
@@ -90,7 +90,7 @@ import java.util.ArrayList;
                 FileWriter fileWriter = new FileWriter(shoppingCartFile, false);
                 BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
                 for (int i = 0; i < lines.size(); i++) {
-                    bufferedWriter.write(lines.get(i));
+                    bufferedWriter.write(lines.get(i)+"\n");
                 }
                 bufferedWriter.close();
             } else {
@@ -103,7 +103,7 @@ import java.util.ArrayList;
                         info = info + "," + usersShoppingCart.get(i).getName();
                     }
                 }
-                bufferedWriter.write(info);
+                bufferedWriter.write(info+"\n");
                 bufferedWriter.close();
             }
         }
@@ -127,7 +127,7 @@ import java.util.ArrayList;
                 FileWriter fileWriter = new FileWriter(userInfo, false);
                 BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
                 for (int i = 0; i < lines.size(); i++) {
-                    bufferedWriter.write(lines.get(i));
+                    bufferedWriter.write(lines.get(i)+"\n");
                 }
                 bufferedWriter.close();
             }
@@ -154,7 +154,7 @@ import java.util.ArrayList;
                 BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
                 for (int i = 0; i < lines.size(); i++) {
                     try {
-                        bufferedWriter.write(lines.get(i));
+                        bufferedWriter.write(lines.get(i)+"\n");
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
