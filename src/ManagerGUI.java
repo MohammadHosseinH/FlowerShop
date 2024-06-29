@@ -1,5 +1,4 @@
 import javax.imageio.ImageIO;
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -13,31 +12,27 @@ import java.util.ArrayList;
 
 public class ManagerGUI extends ShopGUI implements ActionListener {
     //Fields and Components
-    ArrayList<Product> products = new ArrayList<>();
-    ArrayList<Costumer> costumers = new ArrayList<>();
-    ArrayList<JButton> productButtonsList = new ArrayList<>();
     String currentPanel;
     JButton showProductsButton = new JButton("نمایش محصولات");
     JButton showUsersButton = new JButton("نمایش کاربران");
     JButton addProductButton = new JButton("افزودن کالا");
+    JTextField productNameField = new JTextField();
+    JTextField priceField = new JTextField();
+    JTextField inventoryField = new JTextField();
     JButton searchProductButton = new JButton("جستجوی کالا");
     JButton backButton = new JButton("بازگشت");
     JButton productButton = new JButton();
     JButton confirmAddProduct = new JButton("ثبت");
+    JButton chooseImageButton = new JButton("افزودن عکس");
     JButton searchButton = new JButton("جست و جو");
     JTextField searchField = new JTextField();
-
     JButton editName = new JButton("تغییر");
     JButton editPrice = new JButton("تغییر");
     JButton editInventory = new JButton("تغییر");
-    MyScrollable mainScrollable = new MyScrollable("Main Scrollable");
+    JFileChooser fileChooser = new JFileChooser("images");
+    String path;
 
     ManagerGUI(){
-        try {
-            setProductsArray(productFile);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
         menuPage();
 
     }
@@ -80,7 +75,7 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
         this.revalidate();
     }
     public void showProductPage(){
-        currentPanel = "show product list";
+        MyScrollable mainScrollable = new MyScrollable("Main Scrollable");
         this.getContentPane().removeAll();
         mainScrollable.setLayout(new GridLayout(0, 1));
 
@@ -123,48 +118,40 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
 
     public void addProductPage(){
         JPanel addProductPanel = new JPanel(null);
-
         JLabel productInfo = new JLabel("مشخصات کالا");
         productInfo.setBounds(200, 100, 100, 30);
         productInfo.setFont(font);
-
         JLabel productName = new JLabel("نام کالا");
         productName.setBounds(100 , 175 , 50, 30);
         productName.setFont(font);
-        JTextField enteredProductName = new JTextField();
-        enteredProductName.setBounds(200, 175, 200,30);
-
+        productNameField.setBounds(200, 175, 200,30);
         JLabel productPrice = new JLabel("قیمت");
         productPrice.setBounds(100 , 225 , 50, 30);
         productPrice.setFont(font);
-        JTextField enteredProductPrice = new JTextField();
-        enteredProductPrice.setBounds(200,225,200,30);
-
+        priceField.setBounds(200,225,200,30);
         JLabel productInventory = new JLabel("موجودی");
         productInventory.setBounds(100 , 275 , 50, 30);
         productInventory.setFont(font);
-        JTextField enteredProductInventory = new JTextField();
-        enteredProductInventory.setBounds(200,275,200,30);
+        inventoryField.setBounds(200,275,200,30);
 
-
-        //it should change to select image
-        JButton addProductImage = new JButton("افزودن عکس");
-        addProductImage.setBounds(175, 350, 150, 40);
-        addProductImage.setFont(font);
-
-        confirmAddProduct.setBounds(175, 425, 150, 40);
+        chooseImageButton.setBounds(175, 350, 150, 30);
+        chooseImageButton.setFont(font);
+        chooseImageButton.addActionListener(this);
+        confirmAddProduct.setBounds(175, 400, 150, 30);
         confirmAddProduct.setFont(font);
         confirmAddProduct.addActionListener(this);
-
+        backButton.setBounds(175, 400, 150, 30);
+        backButton.setFont(font);
+        backButton.addActionListener(this);
 
         addProductPanel.add(productInfo);
         addProductPanel.add(productName);
         addProductPanel.add(productPrice);
-        addProductPanel.add(enteredProductPrice);
-        addProductPanel.add(enteredProductName);
+        addProductPanel.add(priceField);
+        addProductPanel.add(productNameField);
         addProductPanel.add(productInventory);
-        addProductPanel.add(enteredProductInventory);
-        addProductPanel.add(addProductImage);
+        addProductPanel.add(inventoryField);
+        addProductPanel.add(chooseImageButton);
         addProductPanel.add(confirmAddProduct);
 
         this.getContentPane().removeAll();
@@ -173,21 +160,49 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
         this.revalidate();
     }
 
+    public String chooseImage(){
+        fileChooser.setAcceptAllFileFilterUsed(false);
+        File file = null;
+        int option = fileChooser.showOpenDialog(ManagerGUI.this);
+        if (option == 0) {
+            file = fileChooser.getSelectedFile();
+        }
+        return file.getPath();
+
+    }
+
+    public void addProduct(){
+        String name = productNameField.getText();
+        double price = Double.parseDouble(priceField.getText());
+        int inventory = Integer.parseInt(inventoryField.getText());
+        try {
+            Product tempProduct = new Product(name,price,inventory,path);
+            products.add(tempProduct);
+            tempProduct.addProductInFile(productFile);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        showMessages("کالا با موفقیت افزوده شد");
+    }
+
     public void searchPage(){
         JPanel searchPanel = new JPanel(null);
 
         JLabel searchLabel = new JLabel("عبارت مورد نظر را تایپ کنید");
         searchLabel.setFont(font);
-        searchLabel.setBounds(150,150, 300,30);
+        searchLabel.setBounds(180,150, 300,30);
 
         searchField.setBounds(150, 250,200,30);
 
         searchButton.setFont(font);
-        searchButton.setBounds(175, 350, 150,40);
-
+        searchButton.setBounds(175, 350, 150,30);
+        searchButton.addActionListener(this);
+        backButton.setBounds(175, 400, 150,30);
+        backButton.addActionListener(this);
         searchPanel.add(searchLabel);
         searchPanel.add(searchField);
         searchPanel.add(searchButton);
+        searchPanel.add(backButton);
 
         this.getContentPane().removeAll();
         this.add(searchPanel);
@@ -195,22 +210,59 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
         this.revalidate();
     }
 
-    public boolean search() throws IOException {
-        boolean flag = false;
-        for (int i = 0; i < arrangeProductArray(productFile).size(); i++) {
-            if (arrangeProductArray(productFile).get(i).contains(searchField.getText())){
-                flag = true;
+    public void search(String searchedName) throws IOException {
+        boolean isProductExist = false;
+        for (Product product : products) {
+            if (product.getName().equals(searchedName)) {
+                isProductExist = true;
+                productsInfoPage(product);
             }
         }
-        return flag;
+        if(!isProductExist)
+            showMessages("کالا مورد نظر یافت نشد.");
     }
 
     public void usersListPage(){
-        //TODO
+        currentPanel = "show user list";
+        MyScrollable mainScrollable = new MyScrollable("Main Scrollable");
+        this.getContentPane().removeAll();
+        mainScrollable.setLayout(new GridLayout(0, 1));
+
+        for (Costumer c : costumers) {
+            JLabel userLabel = new JLabel();
+            String name = c.getName() + " , " + c.getUserName() + " , " + c.getPhoneNumber() + " , " + c.getAddress();
+            userLabel.setText(name);
+            userLabel.setLayout(new BorderLayout());
+            userLabel.setBackground(Color.WHITE);
+            userLabel.setBorder(BorderFactory.createLineBorder(new Color(72,61,139)));
+            mainScrollable.add(userLabel);
+        }
+
+        JViewport viewport = new JViewport() {
+            @Override
+            public void doLayout() {
+                super.doLayout();
+            }
+
+        };
+        viewport.setView(mainScrollable);
+
+        JScrollPane scrollPane = new JScrollPane() {
+            @Override
+            public void doLayout() {
+                super.doLayout();
+            }
+        };
+        mainScrollable.add(backButton);
+        backButton.addActionListener(this);
+        scrollPane.setViewport(viewport);
+        this.setLayout(new BorderLayout());
+        this.add(scrollPane);
+        this.repaint();
+        this.revalidate();
     }
 
     public void productsInfoPage(Product product){
-        currentPanel = "product info";
         BufferedImage bufferedImage = null;
         System.out.println(product.getImagePath());
         try {
@@ -255,27 +307,18 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
         this.revalidate();
     }
 
-    public void setProductsArray(File productsFile) throws IOException {
-        FileReader fileReader =new FileReader(productsFile);
-        BufferedReader bufferedReader = new BufferedReader(fileReader);
-        String line;
-        int i = 0;
-        while ((line = bufferedReader.readLine()) != null){
-            String[] lines = line.split(",");
-            Product tempProduct = new Product(lines[0] , Double.parseDouble(lines[2]) , Integer.parseInt(lines[3]) , lines[1]);
-            products.add(tempProduct);
-        }
-        bufferedReader.close();
-    }
-
     public void back(){
         this.getContentPane().removeAll();
-        if(currentPanel.equals("show product list")) {
+        if(currentPanel.equals("show product list") || currentPanel.equals("search panel") || currentPanel.equals("add product") || currentPanel.equals("show user list")) {
             menuPage();
         }
         else if(currentPanel.equals("product info")){
             showProductPage();
         }
+        else if(currentPanel.equals("product info after search")){
+            searchPage();
+        }
+
         this.repaint();
         this.revalidate();
     }
@@ -283,13 +326,18 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == showProductsButton){
+            currentPanel = "show product list";
             showProductPage();
         }
         if(e.getSource() == addProductButton){
+            currentPanel = "add product";
             addProductPage();
         }
-        if (e.getSource() == searchProductButton){
-            searchPage();
+        if(e.getSource() == chooseImageButton){
+            path = chooseImage();
+        }
+        if(e.getSource() == confirmAddProduct){
+            addProduct();
         }
         if (e.getSource() == editName){
             //TODO
@@ -303,21 +351,22 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
         if(e.getSource() == backButton){
             back();
         }
+        if(e.getSource() == showUsersButton){
+            usersListPage();
+        }
 
         if (e.getSource() == confirmAddProduct){
-            //TODO
+            addProduct();
+            back();
         }
         if (e.getSource() == searchProductButton){
+            currentPanel = "search panel";
             searchPage();
         }
         if (e.getSource() == searchButton){
+            currentPanel = "product info after search";
             try {
-                if (search()){
-                    //TODO
-                }
-                else {
-                    showErrors("کالا مورد نظر یافت نشد.");
-                }
+                search(searchField.getText());
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
@@ -325,6 +374,7 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
 
         for (int i = 0; i < productButtonsList.size(); i++){
             if (e.getSource() == productButtonsList.get(i)){
+                currentPanel = "product info";
                 productButtonsList = new ArrayList<>();
                 productsInfoPage(products.get(i));
                 break;

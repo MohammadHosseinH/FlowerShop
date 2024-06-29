@@ -164,7 +164,7 @@ public class CostumerGUI extends ShopGUI implements ActionListener {
             costumer.changePassword(userInfo, newPassword.getText());
         }
         else {
-            showErrors("رمز عبور اشتباه است.");
+            showMessages("رمز عبور اشتباه است.");
         }
     }
     public void increaseBalanceAction() throws IOException {
@@ -178,7 +178,7 @@ public class CostumerGUI extends ShopGUI implements ActionListener {
             costumer.changeBalance(userInfo, Double.parseDouble(addingBalance.getText()));
         }
         else {
-            showErrors("مبلغ وارد شده معتبر نیست.");
+            showMessages("مبلغ وارد شده معتبر نیست.");
         }
 
     }
