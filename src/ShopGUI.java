@@ -3,6 +3,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Stack;
 
 public class ShopGUI extends JFrame implements ActionListener {
         //Fields and Components
@@ -36,6 +38,22 @@ public class ShopGUI extends JFrame implements ActionListener {
             welcomePage();
 
         }
+
+        //it used in Product class to
+    public static ArrayList<String> arrangeProductArray(File products) throws IOException {
+        ArrayList<String> productsList = new ArrayList<>();
+        FileReader fileReader =new FileReader(products);
+        BufferedReader bufferedReader = new BufferedReader(fileReader);
+        String line;
+        int i = 0;
+        while ((line = bufferedReader.readLine()) != null){
+            productsList.set(i, line);
+            i++;
+        }
+        bufferedReader.close();
+        return productsList;
+    }
+
 
         public void welcomePage(){
             JPanel menuPanel = new JPanel(null);

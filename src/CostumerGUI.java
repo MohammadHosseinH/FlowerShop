@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class CostumerGUI extends ShopGUI implements ActionListener {
     //Fields and Components
@@ -10,10 +11,9 @@ public class CostumerGUI extends ShopGUI implements ActionListener {
     JButton changePassword = new JButton("تغییر رمز");
     JButton increaseBalance = new JButton("افزایش موجودی");
     JButton confirmNewPassword = new JButton("ثبت");
-
     JTextField newPassword = new JTextField();
     JTextField currentPassword = new JTextField();
-    JTextField deposit = new JTextField();
+    JTextField addingBalance = new JTextField();
     JButton confirmDeposit = new JButton("ثبت");
     JButton exit = new JButton("خروج");
 
@@ -116,7 +116,7 @@ public class CostumerGUI extends ShopGUI implements ActionListener {
         increaseBalanceMessage.setBounds(150 , 200 ,300, 30 );
         increaseBalanceMessage.setFont(font);
 
-        deposit.setBounds(175,250, 150,50);
+        addingBalance.setBounds(175,250, 150,50);
 
         confirmDeposit.setBounds(175, 400, 150,50);
         confirmDeposit.setFont(font);
@@ -125,7 +125,7 @@ public class CostumerGUI extends ShopGUI implements ActionListener {
 
 
         increaseBalancePanel.add(increaseBalanceMessage);
-        increaseBalancePanel.add(deposit);
+        increaseBalancePanel.add(addingBalance);
         increaseBalancePanel.add(confirmDeposit);
     }
 
@@ -159,25 +159,26 @@ public class CostumerGUI extends ShopGUI implements ActionListener {
         changePasswordPanel.add(confirm);
     }
 
-    public void changePasswordAction(){
+    public void changePasswordAction() throws IOException {
         if (currentPassword.getText().equals(costumer.getPassword())){
-            //TODO
+            costumer.changePassword(userInfo, newPassword.getText());
+        }
+        else {
+            showErrors("رمز عبور اشتباه است.");
         }
     }
-    public void increaseBalanceAction(){
+    public void increaseBalanceAction() throws IOException {
         boolean flag = true;
-        for (int i = 0; i < deposit.getText().length(); i++) {
-            if (!Character.isDigit(deposit.getText().charAt(i))){
+        for (int i = 0; i < addingBalance.getText().length(); i++) {
+            if (!Character.isDigit(addingBalance.getText().charAt(i))){
                 flag = false;
             }
         }
         if (flag){
-            //TODO
-            //change balance
+            costumer.changeBalance(userInfo, Double.parseDouble(addingBalance.getText()));
         }
         else {
-            //TODO
-            //error
+            showErrors("مبلغ وارد شده معتبر نیست.");
         }
 
     }
@@ -189,13 +190,21 @@ public class CostumerGUI extends ShopGUI implements ActionListener {
             changePasswordPage();
         }
         if (e.getSource() == confirmNewPassword){
-            changePasswordAction();
+            try {
+                changePasswordAction();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
         }
         if (e.getSource() == increaseBalance){
             increaseBalancePage();
         }
         if (e.getSource() == confirmDeposit){
-            increaseBalanceAction();
+            try {
+                increaseBalanceAction();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
         }
         if (e.getSource() == exit){
             welcomePage();
