@@ -29,6 +29,7 @@ public class CostumerGUI extends ShopGUI implements ActionListener {
     public void profilePage(){
 
         JPanel profilePanel = new JPanel(null);
+        profilePanel.setBackground(backGroundColor);
 
         JLabel profileLabel = new JLabel("پروفایل کاربری");
         profileLabel.setBounds(200, 50, 100, 50);
@@ -72,9 +73,15 @@ public class CostumerGUI extends ShopGUI implements ActionListener {
 
         increaseBalance.setBounds(180, 450, 130 ,50);
         increaseBalance.setFont(font);
+        increaseBalance.setBackground(Color.WHITE);
+        increaseBalance.setBorder(BorderFactory.createLineBorder(new Color(72,61,139)));
+
 
         changePassword.setBounds(30, 450, 130 ,50);
         changePassword.setFont(font);
+        changePassword.setBackground(Color.WHITE);
+        changePassword.setBorder(BorderFactory.createLineBorder(new Color(72,61,139)));
+
 
         exit.setBounds(330,450,130,50);
         exit.setFont(font);
@@ -104,6 +111,7 @@ public class CostumerGUI extends ShopGUI implements ActionListener {
     public void increaseBalancePage(){
 
         JPanel increaseBalancePanel = new JPanel(null);
+        increaseBalancePanel.setBackground(backGroundColor);
         JLabel increaseBalanceMessage = new JLabel("مبلغ مورد نظر خود را وارد کنید");
         increaseBalanceMessage.setBounds(150 , 200 ,300, 30 );
         increaseBalanceMessage.setFont(font);
@@ -112,6 +120,9 @@ public class CostumerGUI extends ShopGUI implements ActionListener {
 
         confirmDeposit.setBounds(175, 400, 150,50);
         confirmDeposit.setFont(font);
+        confirmDeposit.setBackground(Color.WHITE);
+        confirmDeposit.setBorder(BorderFactory.createLineBorder(new Color(72,61,139)));
+
 
         increaseBalancePanel.add(increaseBalanceMessage);
         increaseBalancePanel.add(deposit);
@@ -120,6 +131,7 @@ public class CostumerGUI extends ShopGUI implements ActionListener {
 
     public void changePasswordPage(){
         JPanel changePasswordPanel = new JPanel(null);
+        changePasswordPanel.setBackground(backGroundColor);
 
         JLabel currentPasswordLabel = new JLabel("رمز فعلی خود را وارد کنید");
         currentPasswordLabel.setBounds(170 , 100 ,200, 30);
@@ -136,6 +148,9 @@ public class CostumerGUI extends ShopGUI implements ActionListener {
         JButton confirm = new JButton("ثبت");
         confirm.setBounds(180 , 400, 140 ,50);
         confirm.setFont(font);
+        confirm.setBackground(Color.WHITE);
+        confirm.setBorder(BorderFactory.createLineBorder(new Color(72,61,139)));
+
 
         changePasswordPanel.add(currentPasswordLabel);
         changePasswordPanel.add(currentPassword);

@@ -23,6 +23,8 @@ public class ShopGUI extends JFrame implements ActionListener {
         JButton confirmSignup = new JButton("ثبت نام");
         JButton confirmCostumerLogin = new JButton("ورود");
         JButton confirmManagerLogin = new JButton("ورود");
+        Color backGroundColor= new Color(192,192,192);
+        Color borderColor= new Color(72,61,139);
 
         ShopGUI(){
             this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -48,6 +50,15 @@ public class ShopGUI extends JFrame implements ActionListener {
             costumerSignupButton.setFont(font);
             managerLoginButton.setFont(font);
 
+            menuPanel.setBackground(backGroundColor);
+            costumerLoginButton.setBackground(Color.WHITE);
+            costumerLoginButton.setBorder(BorderFactory.createLineBorder(borderColor));
+            costumerSignupButton.setBackground(Color.WHITE);
+            costumerSignupButton.setBorder(BorderFactory.createLineBorder(borderColor));
+            managerLoginButton.setBackground(Color.WHITE);
+            managerLoginButton.setBorder(BorderFactory.createLineBorder(borderColor));
+
+
             welcomeLabel.setBounds(220,100,100,30);
             costumerSignupButton.setBounds(175,200,150,40);
             costumerLoginButton.setBounds(175,300, 150, 40);
@@ -62,6 +73,7 @@ public class ShopGUI extends JFrame implements ActionListener {
 
         public void costumerSignupPage(){
             JPanel signupPanel = new JPanel(null);
+            signupPanel.setBackground(backGroundColor);
 
             JLabel nameLabel = new JLabel("نام:");
             nameLabel.setFont(font);
@@ -96,6 +108,9 @@ public class ShopGUI extends JFrame implements ActionListener {
             signupPanel.add(addressField);
 
             confirmSignup.setBounds(200,450,100,50);
+            confirmSignup.setBackground(Color.WHITE);
+            confirmSignup.setBorder(BorderFactory.createLineBorder(new Color(72,61,139)));
+
             confirmSignup.addActionListener(this);
 
             signupPanel.add(confirmSignup);
@@ -126,6 +141,7 @@ public class ShopGUI extends JFrame implements ActionListener {
         public void costumerLoginPage(){
             JPanel loginPanel = new JPanel(null);
             JLabel userNameLabel = new JLabel("نام کاربری:");
+            loginPanel.setBackground(backGroundColor);
             userNameLabel.setFont(font);
             userNameLabel.setBounds(370,200,100,100);
             loginPanel.add(userNameLabel);
@@ -140,6 +156,8 @@ public class ShopGUI extends JFrame implements ActionListener {
             loginPanel.add(passwordField);
 
             confirmCostumerLogin.setBounds(200,450,100,50);
+            confirmCostumerLogin.setBackground(Color.WHITE);
+            confirmCostumerLogin.setBorder(BorderFactory.createLineBorder(new Color(72,61,139)));
             loginPanel.add(confirmCostumerLogin);
             confirmCostumerLogin.addActionListener(this);
 
@@ -178,6 +196,7 @@ public class ShopGUI extends JFrame implements ActionListener {
 
         public void managerLoginPage(){
             JPanel loginPanel = new JPanel(null);
+            loginPanel.setBackground(backGroundColor);
             JLabel userNameLabel = new JLabel("نام کاربری:");
             userNameLabel.setFont(font);
             userNameLabel.setBounds(370,200,100,100);
@@ -193,6 +212,8 @@ public class ShopGUI extends JFrame implements ActionListener {
             loginPanel.add(passwordField);
 
             confirmManagerLogin.setBounds(200,450,100,50);
+            confirmManagerLogin.setBackground(Color.WHITE);
+            confirmManagerLogin.setBorder(BorderFactory.createLineBorder(new Color(72,61,139)));
             loginPanel.add(confirmManagerLogin);
             confirmManagerLogin.addActionListener(this);
 
@@ -214,13 +235,14 @@ public class ShopGUI extends JFrame implements ActionListener {
     public void showErrors(String text){
         JFrame errorFrame= new JFrame("Error");
         errorFrame.setSize(500,250);
-        JPanel errorPanel= new JPanel(new GridLayout(1,1));
-        JLabel showError= new JLabel("<html>" + text + "</html>");
+        //used GridBagLayout to show label in center
+        JPanel errorPanel= new JPanel(new GridBagLayout());
+        errorPanel.setBackground(Color.WHITE);
+        JLabel showError= new JLabel(text);
         errorPanel.add(showError);
         errorFrame.add(errorPanel);
         errorFrame.setVisible(true);
         errorFrame.setResizable(false);
-
     }
 
         @Override

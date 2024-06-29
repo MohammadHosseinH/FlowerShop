@@ -27,7 +27,6 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
     JButton editPrice = new JButton("تغییر");
     JButton editInventory = new JButton("تغییر");
     MyScrollable mainScrollable = new MyScrollable("Main Scrollable");
-    JPanel menuPanel = new JPanel(null);
 
     ManagerGUI(){
         try {
@@ -40,17 +39,30 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
     }
 
     public void menuPage(){
+        JPanel menuPanel = new JPanel(null);
+        menuPanel.setBackground(backGroundColor);
         showProductsButton.setFont(font);
         showProductsButton.setBounds(150,100,200,40);
+        showProductsButton.setBackground(Color.WHITE);
+        showProductsButton.setBorder(BorderFactory.createLineBorder(new Color(72,61,139)));
+
         menuPanel.add(showProductsButton);
         showUsersButton.setFont(font);
         showUsersButton.setBounds(150,200,200,40);
+        showUsersButton.setBackground(Color.WHITE);
+        showUsersButton.setBorder(BorderFactory.createLineBorder(new Color(72,61,139)));
+
         menuPanel.add(showUsersButton);
         addProductButton.setFont(font);
         addProductButton.setBounds(150,300,200,40);
+        addProductButton.setBackground(Color.WHITE);
+        addProductButton.setBorder(BorderFactory.createLineBorder(new Color(72,61,139)));
+
         menuPanel.add(addProductButton);
         searchProductButton.setFont(font);
         searchProductButton.setBounds(150,400,200,40);
+        searchProductButton.setBackground(Color.WHITE);
+        searchProductButton.setBorder(BorderFactory.createLineBorder(new Color(72,61,139)));
         menuPanel.add(searchProductButton);
 
         showProductsButton.addActionListener(this);
@@ -72,6 +84,10 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
             String name = p.getName();
             productButton.setText(name);
             productButton.setLayout(new BorderLayout());
+            productButton.setBackground(Color.WHITE);
+            productButton.setBorder(BorderFactory.createLineBorder(new Color(72,61,139)));
+
+            productButton.add(new JLabel(productButton.getName()));
             mainScrollable.add(productButton);
             productButton.addActionListener(this);
             productButtonsList.add(productButton);
