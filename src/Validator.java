@@ -13,6 +13,7 @@ public class Validator {
                 return true;
             }
         }
+        bufferedReader.close();
         return false;
     }
 
@@ -25,6 +26,7 @@ public class Validator {
                 return true;
             }
         }
+        bufferedReader.close();
         return false;
     }
 
@@ -40,6 +42,7 @@ public class Validator {
                 return true;
             }
         }
+        bufferedReader.close();
         return false;
     }
 
@@ -108,6 +111,7 @@ public class Validator {
                 }
             }
         }
+        bufferedReader.close();
         return false;
     }
 }

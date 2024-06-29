@@ -201,8 +201,14 @@ public class ShopGUI extends JFrame implements ActionListener {
         }
 
         public void managerLogin(){
-            //TODO checking if manager is match to manager field
-            new ManagerGUI();
+            if (userNameField.getText().equals(manager.getUserName()) && passwordField.equals(manager.getPassword())){
+                new ManagerGUI();
+            }
+            else {
+                //TODO
+                //error
+            }
+
         }
     public void showErrors(String text){
         JFrame errorFrame= new JFrame("Error");

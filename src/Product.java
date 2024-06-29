@@ -69,8 +69,7 @@ public class Product {
 
     public void changePrice(File products ,double price) throws IOException {
         for (int i = 0; i < setProductArray(products).size(); i++) {
-            String[] productInfo = setProductArray(products).get(i).split(",");
-            if (Double.parseDouble(productInfo[2]) == this.price){
+            if (setProductArray(products).get(i).startsWith(this.name)){
                 this.price = price;
                 setProductArray(products).set(i , name + "," + imagePath + "," + price + "," + inventory);
                 break;
@@ -84,7 +83,19 @@ public class Product {
         bufferedWriter.close();
     }
 
-    public void setInventory(int inventory) {
-        this.inventory = inventory;
+    public void setInventory(File products, int inventory) throws IOException {
+        for (int i = 0; i < setProductArray(products).size(); i++) {
+            if (setProductArray(products).get(i).startsWith(this.name)){
+                this.inventory = inventory;
+                setProductArray(products).set(i , name + "," + imagePath + "," + price + "," + inventory);
+                break;
+            }
+        }
+        FileWriter fileWriter = new FileWriter(products, false);
+        BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+        for (int i = 0; i < setProductArray(products).size(); i++) {
+            bufferedWriter.write(setProductArray(products).get(i));
+        }
+        bufferedWriter.close();
     }
 }
