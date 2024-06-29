@@ -117,7 +117,9 @@ public class ShopGUI extends JFrame implements ActionListener {
                 new CostumerGUI();
             }
             else
-                showErrors("این نام کاربری توسط کاربر دیگری انتخاب شده. طول رمز عبور باید بیشتر از هشت باشد و شامل حروف، عدد و کارکتر باشد. شماره ی تلفن وارد شده اشتباه است.");
+                showErrors("* این نام کاربری توسط کاربر دیگری انتخاب شده است." + "<br>" +
+                        "* یا طول رمز عبور باید بیشتر از هفت باشد و شامل حروف، عدد و کارکتر باشد. " + "<br>" +
+                        "* یا شماره ی تلفن وارد شده اشتباه است.");
 
         }
 
@@ -157,7 +159,7 @@ public class ShopGUI extends JFrame implements ActionListener {
                 new CostumerGUI();
             }
             else
-                showErrors("رمز عبور نادرست است. دوباره تلاش کنید.");
+                showErrors("رمز عبور یا نام کاربری اشتباه است.");
         }
         //this method is for getting info for specific user from file
         public String[] showInfo(File infoFile, String userName) throws IOException {
@@ -201,19 +203,17 @@ public class ShopGUI extends JFrame implements ActionListener {
         }
 
         public void managerLogin(){
-            if (userNameField.getText().equals(manager.getUserName()) && passwordField.equals(manager.getPassword())){
+            if (userNameField.getText().equals(manager.getUserName()) && passwordField.getText().equals(manager.getPassword())){
                 new ManagerGUI();
             }
             else {
-                //TODO
-                //error
+                showErrors("رمز عبور یا نام کاربری اشتباه است.");
             }
 
         }
     public void showErrors(String text){
         JFrame errorFrame= new JFrame("Error");
         errorFrame.setSize(500,250);
-        //errorFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JPanel errorPanel= new JPanel(new GridLayout(1,1));
         JLabel showError= new JLabel("<html>" + text + "</html>");
         errorPanel.add(showError);

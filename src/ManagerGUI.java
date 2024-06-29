@@ -21,12 +21,12 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
     JButton productButton = new JButton();
 
     ManagerGUI(){
-        menuPage();
         try {
             setProductArray(productFile);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        menuPage();
 
     }
 
@@ -126,6 +126,7 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
             showProductPage();
         }
 
+        //TODO
 
 
 
@@ -136,11 +137,6 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
         }
     }
 }
-
-
-
-
-
 
 
 @SuppressWarnings("serial")
@@ -154,8 +150,6 @@ class MyScrollable extends JComponent implements Scrollable {
 
     @Override
     public Dimension getPreferredScrollableViewportSize() {
-        System.out.println(getName()
-                + " getPreferredScrollableViewportSize called");
         Component[] comps = getComponents();
         if (comps.length > 0) {
             int height = ROW_COUNT * comps[0].getPreferredSize().height;
@@ -167,13 +161,11 @@ class MyScrollable extends JComponent implements Scrollable {
 
     @Override
     public Dimension getPreferredSize() {
-        System.out.println(getName() + " getPreferredSize called");
         return super.getPreferredSize();
     }
 
     @Override
-    public int getScrollableBlockIncrement(Rectangle visibleRect,
-                                           int orientation, int direction) {
+    public int getScrollableBlockIncrement(Rectangle visibleRect, int orientation, int direction) {
         if (orientation == SwingConstants.HORIZONTAL) {
             return VP_WIDTH;
         }
@@ -196,8 +188,7 @@ class MyScrollable extends JComponent implements Scrollable {
     }
 
     @Override
-    public int getScrollableUnitIncrement(Rectangle visibleRect,
-                                          int orientation, int direction) {
+    public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction) {
         if (orientation == SwingConstants.HORIZONTAL) {
             return VP_WIDTH;
         }

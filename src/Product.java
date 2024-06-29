@@ -15,7 +15,7 @@ public class Product {
         this.imagePath = imagePath;
     }
     public void addProductInFile(File products) throws IOException {
-        FileWriter fileWriter = new FileWriter(products);
+        FileWriter fileWriter = new FileWriter(products,true);
         BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
         bufferedWriter.write(name + "," + imagePath + "," + price + "," + inventory);
         setProductArray(products).add(name + "," + imagePath + "," + price + "," + inventory);

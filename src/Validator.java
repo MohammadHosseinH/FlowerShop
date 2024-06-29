@@ -82,7 +82,7 @@ public class Validator {
             }
         }
         for (int i = 0; i < numbers.length; i++) {
-            if (numbers[i] == '@' || numbers[i] == '&' || numbers[i] == '*'){
+            if (numbers[i] == '@' || numbers[i] == '&' || numbers[i] == '*' || numbers[i] == '-' || numbers[i] == '.' || numbers[i] == '_'){
                 break;
             }
             if (i == numbers.length - 1){

@@ -29,7 +29,7 @@ import java.util.Stack;
         }
 
         public void writeInInfoFile(File usersInfoFile) throws IOException {
-            FileWriter fileWriter = new FileWriter(usersInfoFile);
+            FileWriter fileWriter = new FileWriter(usersInfoFile,true);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
             bufferedWriter.write(super.getUserName() + "," + super.getName() + "," + super.getPassword() + "," + super.getPhoneNumber() + "," + super.getAddress() + "," + getBalance());
             bufferedWriter.close();
