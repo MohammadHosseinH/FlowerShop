@@ -34,7 +34,6 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
 
     ManagerGUI(){
         menuPage();
-
     }
 
     public void menuPage(){
@@ -75,6 +74,7 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
         this.revalidate();
     }
     public void showProductPage(){
+        currentPanel = "show product list";
         MyScrollable mainScrollable = new MyScrollable("Main Scrollable");
         this.getContentPane().removeAll();
         mainScrollable.setLayout(new GridLayout(0, 1));
@@ -109,6 +109,10 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
         };
         mainScrollable.add(backButton);
         backButton.addActionListener(this);
+        backButton.setBackground(Color.WHITE);
+        backButton.setBorder(BorderFactory.createLineBorder(new Color(72,61,139)));
+        scrollPane.setBackground(backGroundColor);
+
         scrollPane.setViewport(viewport);
         this.setLayout(new BorderLayout());
         this.add(scrollPane);
@@ -118,6 +122,8 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
 
     public void addProductPage(){
         JPanel addProductPanel = new JPanel(null);
+        addProductPanel.setBackground(backGroundColor);
+
         JLabel productInfo = new JLabel("مشخصات کالا");
         productInfo.setBounds(200, 100, 100, 30);
         productInfo.setFont(font);
@@ -136,6 +142,8 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
 
         chooseImageButton.setBounds(175, 350, 150, 30);
         chooseImageButton.setFont(font);
+        chooseImageButton.setBackground(Color.WHITE);
+        chooseImageButton.setBorder(BorderFactory.createLineBorder(new Color(72,61,139)));
         chooseImageButton.addActionListener(this);
         confirmAddProduct.setBounds(175, 400, 150, 30);
         confirmAddProduct.setFont(font);
@@ -143,6 +151,10 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
         backButton.setBounds(175, 400, 150, 30);
         backButton.setFont(font);
         backButton.addActionListener(this);
+        confirmAddProduct.setBackground(Color.WHITE);
+        confirmAddProduct.setBorder(BorderFactory.createLineBorder(new Color(72,61,139)));
+
+
 
         addProductPanel.add(productInfo);
         addProductPanel.add(productName);
@@ -190,11 +202,13 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
 
         JLabel searchLabel = new JLabel("عبارت مورد نظر را تایپ کنید");
         searchLabel.setFont(font);
-        searchLabel.setBounds(180,150, 300,30);
+        searchLabel.setBounds(150,150, 300,30);
 
         searchField.setBounds(150, 250,200,30);
 
         searchButton.setFont(font);
+        searchButton.setBackground(Color.WHITE);
+        searchButton.setBorder(BorderFactory.createLineBorder(new Color(72,61,139)));
         searchButton.setBounds(175, 350, 150,30);
         searchButton.addActionListener(this);
         backButton.setBounds(175, 400, 150,30);
@@ -280,6 +294,7 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
         JLabel inventoryLabel = new JLabel("موجودی انبار: " + product.getInventory() + " دسته");
 
         JPanel productInfoPanel = new JPanel(null);
+        productInfoPanel.setBackground(backGroundColor);
         productInfoPanel.add(imageLabel);
         nameLabel.setBounds(310,260,200,20);
         productInfoPanel.add(nameLabel);
@@ -288,12 +303,28 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
         inventoryLabel.setBounds(300,400,200,20);
         productInfoPanel.add(inventoryLabel);
         editName.setBounds(50,260,80,20);
+        editName.setFont(font);
+        editName.setBackground(Color.WHITE);
+        editName.setBorder(BorderFactory.createLineBorder(new Color(72,61,139)));
+
         productInfoPanel.add(editName);
         editPrice.setBounds(50,330,80,20);
+        editPrice.setFont(font);
+        editPrice.setBackground(Color.WHITE);
+        editPrice.setBorder(BorderFactory.createLineBorder(new Color(72,61,139)));
+
         productInfoPanel.add(editPrice);
         editInventory.setBounds(50,400,80,20);
+        editInventory.setFont(font);
+        editInventory.setBackground(Color.WHITE);
+        editInventory.setBorder(BorderFactory.createLineBorder(new Color(72,61,139)));
+
         productInfoPanel.add(editInventory);
         backButton.setBounds(200,480,100,40);
+        backButton.setFont(font);
+        backButton.setBackground(Color.WHITE);
+        backButton.setBorder(BorderFactory.createLineBorder(new Color(72,61,139)));
+
         productInfoPanel.add(backButton);
 
         editName.addActionListener(this);

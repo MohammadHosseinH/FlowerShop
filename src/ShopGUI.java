@@ -41,22 +41,6 @@ public class ShopGUI extends JFrame implements ActionListener {
 
     }
 
-    //it used in Product class to
-    public static ArrayList<String> arrangeProductArray(File products) throws IOException {
-        ArrayList<String> productsList = new ArrayList<>();
-        FileReader fileReader = new FileReader(products);
-        BufferedReader bufferedReader = new BufferedReader(fileReader);
-        String line;
-        int i = 0;
-        while ((line = bufferedReader.readLine()) != null) {
-            productsList.set(i, line);
-            i++;
-        }
-        bufferedReader.close();
-        return productsList;
-    }
-
-
     public void welcomePage() {
         try {
             setProductsArray();
@@ -95,7 +79,7 @@ public class ShopGUI extends JFrame implements ActionListener {
         managerLoginButton.addActionListener(this);
 
 
-    }
+        }
 
     public void costumerSignupPage() {
         JPanel signupPanel = new JPanel(null);
@@ -295,7 +279,32 @@ public class ShopGUI extends JFrame implements ActionListener {
         errorFrame.setVisible(true);
         errorFrame.setResizable(false);
     }
-
+    public void resetProductInventory() throws IOException {
+        ArrayList<Product> items=costumer.getUsersShoppingCart();
+        FileReader fileReader= new FileReader(productFile);
+        BufferedReader bufferedReader= new BufferedReader(fileReader);
+        String currentLine;
+        String[] info;
+        ArrayList<String> lines = new ArrayList<>();
+        for (int i = 0; i < items.size(); i++) {
+            while ((currentLine = bufferedReader.readLine()) != null) {
+                info = currentLine.split(",");
+                if (info[0].equals(items.get(i).getName())) {
+                    items.get(i).setInventory(items.get(i).getInventory()-1);
+                    lines.add(info[0] + "," + info[1] +","+ info[2]+","+items.get(i).getInventory());
+                } else {
+                    lines.add(currentLine);
+                }
+                bufferedReader.close();
+                FileWriter fileWriter = new FileWriter(userInfo, false);
+                BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+                for (int j = 0; j < lines.size(); j++) {
+                    bufferedWriter.write(lines.get(j));
+                }
+                bufferedWriter.close();
+            }
+        }
+    }
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == costumerLoginButton){

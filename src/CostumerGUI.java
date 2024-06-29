@@ -85,6 +85,8 @@ public class CostumerGUI extends ShopGUI implements ActionListener {
 
         exit.setBounds(330,450,130,50);
         exit.setFont(font);
+        exit.setBackground(Color.WHITE);
+        exit.setBorder(BorderFactory.createLineBorder(new Color(72,61,139)));
 
 
         profilePanel.add(profileLabel);
