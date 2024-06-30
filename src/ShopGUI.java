@@ -258,7 +258,7 @@ public class ShopGUI extends JFrame implements ActionListener {
     public void resetProductInventory() throws IOException {
         ArrayList<Product> items=costumer.getUsersShoppingCart();
         for (int i = 0; i < items.size(); i++) {
-            items.get(i).changeInventory(productFile, items.get(i).getInventory()-1);
+            items.get(i).changeInventory(myStore.productFile, items.get(i).getInventory()-1);
         }
     }
         @Override

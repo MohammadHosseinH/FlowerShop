@@ -33,7 +33,7 @@ public class Store {
         int i = 0;
         while ((line = bufferedReader.readLine()) != null){
             String[] lines = line.split(",");
-            Product tempProduct = new Product(lines[0] , Double.parseDouble(lines[2]) , Integer.parseInt(lines[3]) , lines[1]);
+            Product tempProduct = new Product(lines[0] , Double.parseDouble(lines[2]) , Integer.parseInt(lines[3]) , lines[1],Integer.parseInt(lines[4]),Double.parseDouble(lines[5]));
             products.add(tempProduct);
         }
         bufferedReader.close();

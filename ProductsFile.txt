@@ -1,16 +1,16 @@
-رز صورتی,C:\Users\Kisana Pahlevan\OneDrive\Desktop\ghazal\FlowerShop\images\photo_2024-06-29_20-35-26.jpg,370000.0,4,0,0.0
-آفتاب گردان,C:\Users\Kisana Pahlevan\OneDrive\Desktop\ghazal\FlowerShop\images\photo_2024-06-29_20-33-48.jpg,740000.0,3,0,0.0
-رز قرمز,C:\Users\Kisana Pahlevan\OneDrive\Desktop\ghazal\FlowerShop\images\photo_2024-06-29_20-41-41.jpg,520000.0,5,0,0.0
-رز سرخابی,C:\Users\Kisana Pahlevan\OneDrive\Desktop\ghazal\FlowerShop\images\photo_2024-06-29_20-41-30.jpg,460000.0,2,0,0.0
-لاله آبی,C:\Users\Kisana Pahlevan\OneDrive\Desktop\ghazal\FlowerShop\images\photo_2024-06-29_20-41-35.jpg,380000.0,6,0,0.0
-زنبق,C:\Users\Kisana Pahlevan\OneDrive\Desktop\ghazal\FlowerShop\images\photo_2024-06-29_21-31-44.jpg,610000.0,4,0,0.0
-نرگس,C:\Users\Kisana Pahlevan\OneDrive\Desktop\ghazal\FlowerShop\images\photo_2024-06-29_21-28-06.jpg,280000.0,7,0,0.0
-رز سفید,C:\Users\Kisana Pahlevan\OneDrive\Desktop\ghazal\FlowerShop\images\photo_2024-06-29_21-28-23.jpg,540000.0,1,0,0.0
-ارکیده,C:\Users\Kisana Pahlevan\OneDrive\Desktop\ghazal\FlowerShop\images\photo_2024-06-29_21-43-26.jpg,680.0,5,0,0.0
-لاله صورتی,C:\Users\Kisana Pahlevan\OneDrive\Desktop\ghazal\FlowerShop\images\photo_2024-06-29_21-43-21.jpg,370.0,4,0,0.0
-شقایق,C:\Users\Kisana Pahlevan\OneDrive\Desktop\ghazal\FlowerShop\images\photo_2024-06-29_21-54-54.jpg,850000.0,3,0,0.0
-مریم نارنجی,C:\Users\Kisana Pahlevan\OneDrive\Desktop\ghazal\FlowerShop\images\photo_2024-06-29_21-55-12.jpg,850000.0,3,0,0.0
-مریم صورتی,C:\Users\Kisana Pahlevan\OneDrive\Desktop\ghazal\FlowerShop\images\photo_2024-06-29_21-55-07.jpg,830000.0,2,0,0.0
-رز سفید,C:\Users\Kisana Pahlevan\OneDrive\Desktop\ghazal\FlowerShop\images\photo_2024-06-29_21-53-40.jpg,470000.0,5,0,0.0
-سوسن,C:\Users\Kisana Pahlevan\OneDrive\Desktop\ghazal\FlowerShop\images\photo_2024-06-29_22-10-37.jpg,610000.0,6,0,0.0
-میخک,C:\Users\Kisana Pahlevan\OneDrive\Desktop\ghazal\FlowerShop\images\photo_2024-06-29_22-10-50.jpg,330000.0,6,0,0.0
+رز صورتی,images\photo_2024-06-29_20-35-26.jpg,370000.0,4,0,0.0
+آفتاب گردان,images\photo_2024-06-29_20-33-48.jpg,740000.0,3,0,0.0
+رز قرمز,images\photo_2024-06-29_20-41-41.jpg,520000.0,5,0,0.0
+رز سرخابی,images\photo_2024-06-29_20-41-30.jpg,460000.0,2,0,0.0
+لاله آبی,images\photo_2024-06-29_20-41-35.jpg,380000.0,6,0,0.0
+زنبق,images\photo_2024-06-29_21-31-44.jpg,610000.0,4,0,0.0
+نرگس,images\photo_2024-06-29_21-28-06.jpg,280000.0,7,0,0.0
+رز سفید,images\photo_2024-06-29_21-28-23.jpg,540000.0,1,0,0.0
+ارکیده,images\photo_2024-06-29_21-43-26.jpg,680.0,5,0,0.0
+لاله صورتی,images\photo_2024-06-29_21-43-21.jpg,370.0,4,0,0.0
+شقایق,images\photo_2024-06-29_21-54-54.jpg,850000.0,3,0,0.0
+مریم نارنجی,images\photo_2024-06-29_21-55-12.jpg,850000.0,3,0,0.0
+مریم صورتی,images\photo_2024-06-29_21-55-07.jpg,830000.0,2,0,0.0
+رز سفید,images\photo_2024-06-29_21-53-40.jpg,470000.0,5,0,0.0
+سوسن,images\photo_2024-06-29_22-10-37.jpg,610000.0,6,0,0.0
+میخک,images\photo_2024-06-29_22-10-50.jpg,330000.0,6,0,0.0

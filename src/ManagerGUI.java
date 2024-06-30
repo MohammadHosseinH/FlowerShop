@@ -171,7 +171,7 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
         if (option == 0) {
             file = fileChooser.getSelectedFile();
         }
-        return file.getPath();
+        return file.getName();
 
     }
 
@@ -344,7 +344,7 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
             addProductPage();
         }
         if(e.getSource() == chooseImageButton){
-            path = chooseImage();
+            path = "images\\" + chooseImage();
         }
         if (e.getSource() == editName){
             //TODO
