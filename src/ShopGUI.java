@@ -7,12 +7,9 @@ import java.util.ArrayList;
 
 public class ShopGUI extends JFrame implements ActionListener {
     //Fields and Components
-    ArrayList<Product> products = new ArrayList<>();
-    ArrayList<Costumer> costumers = new ArrayList<>();
+    Product currentProduct;
     ArrayList<JButton> productButtonsList = new ArrayList<>();
-    File userInfo = new File("userInfo.txt");
-    File shoppingCart = new File("shoppingCart.txt");
-    File productFile = new File("productsFile.txt");
+    Store myStore = new Store();
     Manager manager = new Manager("Admin", "admin1", "hello", "09126027358", "Tehran", 0);
     Costumer costumer = new Costumer(null, null, null, null, null, 0);
     Font font = new Font("Adobe Arabic", Font.PLAIN, 18);
@@ -30,6 +27,10 @@ public class ShopGUI extends JFrame implements ActionListener {
     Color backGroundColor = new Color(192, 192, 192);
     Color borderColor = new Color(72, 61, 139);
 
+    JButton backButton = new JButton("بازگشت");
+    JButton productButton = new JButton();
+
+
     ShopGUI() {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("گل فروشی");
@@ -43,8 +44,8 @@ public class ShopGUI extends JFrame implements ActionListener {
 
     public void welcomePage() {
         try {
-            setProductsArray();
-            setUsersArray();
+            myStore.setProductsArray();
+            myStore.setUsersArray();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -137,9 +138,9 @@ public class ShopGUI extends JFrame implements ActionListener {
         String passWord = passwordField.getText();
         String phoneNumber = phoneNumberField.getText();
         String address = addressField.getText();
-        if ((!Validator.isUserExist(userInfo, userName)) && Validator.validatePassword(passWord) && Validator.checkPhoneNumber(phoneNumber)) {
+        if ((!Validator.isUserExist(myStore.userInfo, userName)) && Validator.validatePassword(passWord) && Validator.checkPhoneNumber(phoneNumber)) {
             costumer = new Costumer(userName, name, passWord, phoneNumber, address, 0);
-            costumer.writeInInfoFile(userInfo);
+            costumer.writeInInfoFile(myStore.userInfo);
             new CostumerGUI();
         } else
             showMessages("* این نام کاربری توسط کاربر دیگری انتخاب شده است." + "<br>" +
@@ -182,8 +183,8 @@ public class ShopGUI extends JFrame implements ActionListener {
     public void costumerLogin() throws IOException {
         String userName = userNameField.getText();
         String password = passwordField.getText();
-        if (Validator.logInCheck(userInfo, userName, password)) {
-            String[] info = showInfo(userInfo, userName);
+        if (Validator.logInCheck(myStore.userInfo, userName, password)) {
+            String[] info = showInfo(myStore.userInfo, userName);
             costumer = new Costumer(info[0], info[1], info[2], info[3], info[4], Double.parseDouble(info[5]));
             new CostumerGUI();
         } else
@@ -242,33 +243,8 @@ public class ShopGUI extends JFrame implements ActionListener {
         }
     }
 
-    public void setUsersArray() throws IOException {
-        FileReader fileReader =new FileReader(userInfo);
-        BufferedReader bufferedReader = new BufferedReader(fileReader);
-        String line;
-        int i = 0;
-        while ((line = bufferedReader.readLine()) != null){
-            String[] lines = line.split(",");
-            Costumer tempUser = new Costumer(lines[1],lines[0],lines[2],lines[3],lines[4], Double.parseDouble(lines[5]));
-            costumers.add(tempUser);
-        }
-        bufferedReader.close();
-    }
-    public void setProductsArray() throws IOException {
-        FileReader fileReader =new FileReader(productFile);
-        BufferedReader bufferedReader = new BufferedReader(fileReader);
-        String line;
-        int i = 0;
-        while ((line = bufferedReader.readLine()) != null){
-            String[] lines = line.split(",");
-            Product tempProduct = new Product(lines[0] , Double.parseDouble(lines[2]) , Integer.parseInt(lines[3]) , lines[1]);
-            products.add(tempProduct);
-        }
-        bufferedReader.close();
-    }
-
     public void showMessages(String text){
-        JFrame errorFrame= new JFrame("Error");
+        JFrame errorFrame= new JFrame("Message");
         errorFrame.setSize(500,250);
         //used GridBagLayout to show label in center
         JPanel errorPanel= new JPanel(new GridBagLayout());
@@ -281,7 +257,7 @@ public class ShopGUI extends JFrame implements ActionListener {
     }
     public void resetProductInventory() throws IOException {
         ArrayList<Product> items=costumer.getUsersShoppingCart();
-        FileReader fileReader= new FileReader(productFile);
+        FileReader fileReader= new FileReader(myStore.productFile);
         BufferedReader bufferedReader= new BufferedReader(fileReader);
         String currentLine;
         String[] info;
@@ -296,7 +272,7 @@ public class ShopGUI extends JFrame implements ActionListener {
                     lines.add(currentLine);
                 }
                 bufferedReader.close();
-                FileWriter fileWriter = new FileWriter(userInfo, false);
+                FileWriter fileWriter = new FileWriter(myStore.userInfo, false);
                 BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
                 for (int j = 0; j < lines.size(); j++) {
                     bufferedWriter.write(lines.get(j));

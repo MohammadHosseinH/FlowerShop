@@ -1,3 +1,4 @@
 salam,images\\s.jpg,22.3,34
 rose flower,C:\Users\Asus\Desktop\FlowerShop\images\rose.jpg,230.0,34
 rose,C:\Users\Asus\Desktop\FlowerShop\images\rose.jpg,124.0,2
+rose,C:\Users\Asus\Desktop\FlowerShop\images\rose.jpg,430.0,12

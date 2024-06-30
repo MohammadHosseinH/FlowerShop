@@ -4,15 +4,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class ManagerGUI extends ShopGUI implements ActionListener {
     //Fields and Components
-    String currentPanel;
     JButton showProductsButton = new JButton("نمایش محصولات");
     JButton showUsersButton = new JButton("نمایش کاربران");
     JButton addProductButton = new JButton("افزودن کالا");
@@ -20,8 +17,6 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
     JTextField priceField = new JTextField();
     JTextField inventoryField = new JTextField();
     JButton searchProductButton = new JButton("جستجوی کالا");
-    JButton backButton = new JButton("بازگشت");
-    JButton productButton = new JButton();
     JButton confirmAddProduct = new JButton("ثبت");
     JButton chooseImageButton = new JButton("افزودن عکس");
     JButton searchButton = new JButton("جست و جو");
@@ -74,12 +69,11 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
         this.revalidate();
     }
     public void showProductPage(){
-        currentPanel = "show product list";
         MyScrollable mainScrollable = new MyScrollable("Main Scrollable");
         this.getContentPane().removeAll();
         mainScrollable.setLayout(new GridLayout(0, 1));
         productButtonsList = new ArrayList<>();
-        for (Product p : products) {
+        for (Product p : myStore.products) {
             String name = p.getName();
             productButton = new JButton();
             productButton.setText(name);
@@ -145,7 +139,7 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
         chooseImageButton.setBackground(Color.WHITE);
         chooseImageButton.setBorder(BorderFactory.createLineBorder(new Color(72,61,139)));
         chooseImageButton.addActionListener(this);
-        confirmAddProduct.setBounds(175, 400, 150, 30);
+        confirmAddProduct.setBounds(175, 450, 150, 30);
         confirmAddProduct.setFont(font);
         confirmAddProduct.addActionListener(this);
         backButton.setBounds(175, 400, 150, 30);
@@ -163,7 +157,7 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
         addProductPanel.add(inventoryField);
         addProductPanel.add(chooseImageButton);
         addProductPanel.add(confirmAddProduct);
-
+        addProductPanel.add(backButton);
         this.getContentPane().removeAll();
         this.add(addProductPanel);
         this.repaint();
@@ -186,8 +180,8 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
         double price = Double.parseDouble(priceField.getText());
         int inventory = Integer.parseInt(inventoryField.getText());
         Product tempProduct = new Product(name,price,inventory,path);
-        products.add(tempProduct);
-        tempProduct.addProductInFile(productFile);
+        myStore.products.add(tempProduct);
+        tempProduct.addProductInFile(myStore.productFile);
         showMessages("کالا با موفقیت افزوده شد");
     }
 
@@ -220,10 +214,11 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
 
     public void search(String searchedName) throws IOException {
         boolean isProductExist = false;
-        for (Product product : products) {
+        for (Product product : myStore.products) {
             if (product.getName().equals(searchedName)) {
                 isProductExist = true;
-                productsInfoPage(product);
+                currentProduct = product;
+                productsInfoPage();
             }
         }
         if(!isProductExist)
@@ -231,12 +226,11 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
     }
 
     public void usersListPage(){
-        currentPanel = "show user list";
         MyScrollable mainScrollable = new MyScrollable("Main Scrollable");
         this.getContentPane().removeAll();
         mainScrollable.setLayout(new GridLayout(0, 1));
 
-        for (Costumer c : costumers) {
+        for (Costumer c : myStore.costumers) {
             JLabel userLabel = new JLabel();
             String name = c.getName() + " , " + c.getUserName() + " , " + c.getPhoneNumber() + " , " + c.getAddress();
             userLabel.setText(name);
@@ -270,9 +264,9 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
         this.revalidate();
     }
 
-    public void productsInfoPage(Product product){
+    public void productsInfoPage(){
         BufferedImage bufferedImage = null;
-        System.out.println(product.getImagePath());
+        Product product = currentProduct;
         try {
             bufferedImage = ImageIO.read(new File(product.getImagePath()));
         } catch (IOException e) {
@@ -334,16 +328,7 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
 
     public void back(){
         this.getContentPane().removeAll();
-        if(currentPanel.equals("show product list") || currentPanel.equals("search panel") || currentPanel.equals("add product") || currentPanel.equals("show user list")) {
-            menuPage();
-        }
-        else if(currentPanel.equals("product info")){
-            showProductPage();
-        }
-        else if(currentPanel.equals("product info after search")){
-            searchPage();
-        }
-
+        menuPage();
         this.repaint();
         this.revalidate();
     }
@@ -351,11 +336,9 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == showProductsButton){
-            currentPanel = "show product list";
             showProductPage();
         }
         if(e.getSource() == addProductButton){
-            currentPanel = "add product";
             addProductPage();
         }
         if(e.getSource() == chooseImageButton){
@@ -386,11 +369,9 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
             back();
         }
         if (e.getSource() == searchProductButton){
-            currentPanel = "search panel";
             searchPage();
         }
         if (e.getSource() == searchButton){
-            currentPanel = "product info after search";
             try {
                 search(searchField.getText());
             } catch (IOException ex) {
@@ -400,8 +381,8 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
 
         for (int i = 0; i < productButtonsList.size(); i++){
             if (e.getSource() == productButtonsList.get(i)){
-                currentPanel = "product info";
-                productsInfoPage(products.get(i));
+                currentProduct = myStore.products.get(i);
+                productsInfoPage();
                 break;
             }
         }
