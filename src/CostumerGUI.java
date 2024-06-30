@@ -396,11 +396,16 @@ public class CostumerGUI extends ShopGUI implements ActionListener {
         confirmDeposit.setFont(font);
         confirmDeposit.setBackground(Color.WHITE);
         confirmDeposit.setBorder(BorderFactory.createLineBorder(new Color(72,61,139)));
-
+        confirmDeposit.addActionListener(this);
 
         increaseBalancePanel.add(increaseBalanceMessage);
         increaseBalancePanel.add(addingBalance);
         increaseBalancePanel.add(confirmDeposit);
+
+        this.getContentPane().removeAll();
+        this.add(increaseBalancePanel);
+        this.repaint();
+        this.revalidate();
     }
 
     public void changePasswordPage(){
@@ -431,6 +436,11 @@ public class CostumerGUI extends ShopGUI implements ActionListener {
         changePasswordPanel.add(newPasswordLabel);
         changePasswordPanel.add(newPassword);
         changePasswordPanel.add(confirm);
+
+        this.getContentPane().removeAll();
+        this.add(changePasswordPanel);
+        this.repaint();
+        this.revalidate();
     }
 
     public void changePasswordAction() throws IOException {
@@ -443,8 +453,9 @@ public class CostumerGUI extends ShopGUI implements ActionListener {
     }
     public void increaseBalanceAction() throws IOException {
         boolean flag = true;
-        for (int i = 0; i < addingBalance.getText().length(); i++) {
-            if (!Character.isDigit(addingBalance.getText().charAt(i))){
+        String text = addingBalance.getText();
+        for (int i = 0; i < text.length(); i++) {
+            if (!Character.isDigit(text.charAt(i))){
                 flag = false;
             }
         }
@@ -571,7 +582,6 @@ public class CostumerGUI extends ShopGUI implements ActionListener {
         else if (e.getSource() == exit){
             try {
                 costumer.writeInShoppingCartFile(myStore.shoppingCartFile);
-                System.out.println(costumer.getUserName());
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }

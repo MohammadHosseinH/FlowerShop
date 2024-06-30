@@ -145,9 +145,9 @@ public class ShopGUI extends JFrame implements ActionListener {
             this.dispose();
             new CostumerGUI();
         } else
-            showMessages("* این نام کاربری توسط کاربر دیگری انتخاب شده است." + "<br>" +
-                    "* یا طول رمز عبور باید بیشتر از هفت باشد و شامل حروف، عدد و کارکتر باشد. " + "<br>" +
-                    "* یا شماره ی تلفن وارد شده اشتباه است.");
+            showMessages(" این نام کاربری توسط کاربر دیگری انتخاب شده است." + "<br>" +
+                    " یا طول رمز عبور باید بیشتر از هفت باشد و شامل حروف، عدد و کارکتر باشد. " + "<br>" +
+                    " یا شماره ی تلفن وارد شده اشتباه است.");
 
     }
 
@@ -253,7 +253,8 @@ public class ShopGUI extends JFrame implements ActionListener {
         //used GridBagLayout to show label in center
         JPanel errorPanel= new JPanel(new GridBagLayout());
         errorPanel.setBackground(Color.WHITE);
-        JLabel showError= new JLabel(text);
+        JLabel showError= new JLabel("<html>" + text + "</html>");
+        showError.setFont(font);
         errorPanel.add(showError);
         errorFrame.add(errorPanel);
         errorFrame.setVisible(true);
