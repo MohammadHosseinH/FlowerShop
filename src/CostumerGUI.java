@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 public class CostumerGUI extends ShopGUI implements ActionListener {
     //Fields and Components
+    JPanel menuPanel = new JPanel(null);
     JButton showProductsButton = new JButton("نمایش محصولات");
     JButton searchPageButton = new JButton("جستجو محصولات");
     JButton profilePageButton = new JButton("پروفایل");
@@ -17,6 +18,7 @@ public class CostumerGUI extends ShopGUI implements ActionListener {
     JButton searchButton = new JButton("جستجو");
     JTextField searchField = new JTextField();
     JButton addToShoppingCartButton = new JButton("افزودن به سبد خرید");
+    JButton deleteFromShoppingCartButton = new JButton("حذف از سبد خرید");
     JButton changePassword = new JButton("تغییر رمز");
     JButton increaseBalance = new JButton("افزایش موجودی");
     JButton confirmNewPassword = new JButton("ثبت");
@@ -28,14 +30,23 @@ public class CostumerGUI extends ShopGUI implements ActionListener {
     JButton rateButton = new JButton("امتیاز دهید");
     JButton confirmRate = new JButton("ثبت");
     JTextField costumerRate = new JTextField();
-
+    JButton completeShopping = new JButton("نهایی کردن خرید");
+    JButton filterButton = new JButton();
+    boolean isItShoppingCartList = false;
+    boolean isItAShoppingCartProductInfo = false;
+    JButton backButton = new JButton("بازگشت");
+    boolean isItFirstAction = true;
 
     CostumerGUI(){
         menuPage();
+        try {
+            costumer.adjustShoppingCart(myStore.productFile,myStore.shoppingCartFile);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void menuPage(){
-        JPanel menuPanel = new JPanel(null);
         menuPanel.setBackground(backGroundColor);
         showProductsButton.setFont(font);
         showProductsButton.setBounds(150,100,200,40);
@@ -78,11 +89,12 @@ public class CostumerGUI extends ShopGUI implements ActionListener {
         for (Product p : givenProducts) {
             String name = p.getName();
             productButton = new JButton();
+            productButton.setFont(font);
             productButton.setText(name);
             productButton.setLayout(new BorderLayout());
             productButton.setBackground(Color.WHITE);
             productButton.setBorder(BorderFactory.createLineBorder(new Color(72,61,139)));
-            productButton.setPreferredSize(new Dimension(200, 30));
+            productButton.setPreferredSize(new Dimension(200, 40));
             mainScrollable.add(productButton);
             productButton.addActionListener(this);
             productButtonsList.add(productButton);
@@ -103,6 +115,21 @@ public class CostumerGUI extends ShopGUI implements ActionListener {
                 super.doLayout();
             }
         };
+        if(isItShoppingCartList && !costumer.getShoppingCart().isEmpty()){
+            JLabel amountLabel = new JLabel("مبلغ خرید نهایی : " + costumer.totalPriceOfShoppingCart() + " تومان");
+            amountLabel.setFont(font);
+            amountLabel.setBorder(BorderFactory.createLineBorder(new Color(72,61,139)));
+            amountLabel.setHorizontalAlignment(SwingConstants.CENTER);
+            amountLabel.setVerticalAlignment(SwingConstants.CENTER);
+            mainScrollable.add(amountLabel);
+            mainScrollable.add(completeShopping);
+            completeShopping.addActionListener(this);
+            completeShopping.setFont(font);
+            completeShopping.setBackground(Color.WHITE);
+            completeShopping.setBorder(BorderFactory.createLineBorder(new Color(72,61,139)));
+            isItShoppingCartList = false;
+            isItAShoppingCartProductInfo = true;
+        }
         mainScrollable.add(backButton);
         backButton.addActionListener(this);
         backButton.setBackground(Color.WHITE);
@@ -131,7 +158,6 @@ public class CostumerGUI extends ShopGUI implements ActionListener {
         searchButton.setBounds(175, 350, 150,30);
         searchButton.addActionListener(this);
         backButton.setBounds(175, 400, 150,30);
-        backButton.addActionListener(this);
         backButton.setBackground(Color.WHITE);
         backButton.setBorder(BorderFactory.createLineBorder(new Color(72,61,139)));
 
@@ -262,35 +288,54 @@ public class CostumerGUI extends ShopGUI implements ActionListener {
         ImageIcon imageIcon = new ImageIcon(image);
         imageLabel.setIcon(imageIcon);
         JLabel nameLabel = new JLabel("نام محصول : " + product.getName());
+        nameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+        nameLabel.setFont(font);
         JLabel priceLabel = new JLabel("قیمت : " + product.getPrice() + " تومان");
+        priceLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+        priceLabel.setFont(font);
         JLabel inventoryLabel = new JLabel("موجودی انبار: " + product.getInventory() + " دسته");
+        inventoryLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+        inventoryLabel.setFont(font);
 
         JPanel productInfoPanel = new JPanel(null);
         productInfoPanel.setBackground(backGroundColor);
         productInfoPanel.add(imageLabel);
-        nameLabel.setBounds(310,260,200,20);
+        nameLabel.setBounds(250,260,150,20);
         productInfoPanel.add(nameLabel);
-        priceLabel.setBounds(320,330,200,20);
+        priceLabel.setBounds(250,330,150,20);
         productInfoPanel.add(priceLabel);
-        inventoryLabel.setBounds(300,400,200,20);
+        inventoryLabel.setBounds(250,400,150,20);
         productInfoPanel.add(inventoryLabel);
         rateButton.setFont(font);
         rateButton.setBackground(Color.WHITE);
         rateButton.setBorder(BorderFactory.createLineBorder(new Color(72,61,139)));
-        rateButton.setBounds(60,120, 80,30);
+        rateButton.setBounds(270,450, 100,30);
         rateButton.addActionListener(this);
         productInfoPanel.add(rateButton);
-        addToShoppingCartButton.setBounds(200,450,100,30);
-        addToShoppingCartButton.setFont(font);
-        addToShoppingCartButton.setBackground(Color.WHITE);
-        addToShoppingCartButton.setBorder(BorderFactory.createLineBorder(new Color(72,61,139)));
-        productInfoPanel.add(addToShoppingCartButton);
+        if(costumer.getShoppingCart().contains(currentProduct)){
+            deleteFromShoppingCartButton.setBounds(130,450,100,30);
+            deleteFromShoppingCartButton.setFont(font);
+            deleteFromShoppingCartButton.setBackground(Color.WHITE);
+            deleteFromShoppingCartButton.setBorder(BorderFactory.createLineBorder(new Color(72,61,139)));
+            productInfoPanel.add(deleteFromShoppingCartButton);
+        }
+        else {
+            addToShoppingCartButton.setBounds(130, 450, 100, 30);
+            addToShoppingCartButton.setFont(font);
+            addToShoppingCartButton.setBackground(Color.WHITE);
+            addToShoppingCartButton.setBorder(BorderFactory.createLineBorder(new Color(72, 61, 139)));
+            productInfoPanel.add(addToShoppingCartButton);
+        }
         backButton.setBounds(200,510,100,30);
         backButton.setFont(font);
         backButton.setBackground(Color.WHITE);
         backButton.setBorder(BorderFactory.createLineBorder(new Color(72,61,139)));
         productInfoPanel.add(backButton);
-        addToShoppingCartButton.addActionListener(this);
+        if(isItFirstAction) {
+            addToShoppingCartButton.addActionListener(this);
+            deleteFromShoppingCartButton.addActionListener(this);
+            isItFirstAction = false;
+        }
         backButton.addActionListener(this);
 
         this.getContentPane().removeAll();
@@ -405,7 +450,7 @@ public class CostumerGUI extends ShopGUI implements ActionListener {
 
     public void back(){
         this.getContentPane().removeAll();
-        menuPage();
+        this.add(menuPanel);
         this.repaint();
         this.revalidate();
     }
@@ -414,22 +459,23 @@ public class CostumerGUI extends ShopGUI implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == showProductsButton){
+            isItAShoppingCartProductInfo = false;
             showProductPage(myStore.products);
         }
-        if (e.getSource() == searchPageButton){
+        else if (e.getSource() == searchPageButton){
             searchPage();
         }
-        if (e.getSource() == searchButton){
+        else if (e.getSource() == searchButton){
             try {
                 search(searchField.getText());
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
         }
-        if (e.getSource() == rateButton){
+        else if (e.getSource() == rateButton){
             ratePage();
         }
-        if (e.getSource() == confirmRate){
+        else if (e.getSource() == confirmRate){
             try {
                 currentProduct.adjustRate(myStore.productFile, Double.parseDouble(costumerRate.getText()));
             } catch (IOException ex) {
@@ -440,13 +486,25 @@ public class CostumerGUI extends ShopGUI implements ActionListener {
             this.repaint();
             this.revalidate();
         }
-        if (e.getSource() == profilePageButton){
+        else if (e.getSource() == shoppingCartButton){
+            isItShoppingCartList = true;
+            showProductPage(costumer.getShoppingCart());
+        }
+        else if (e.getSource() == addToShoppingCartButton){
+            costumer.addToShoppingCart(currentProduct);
+            showMessages(currentProduct.getName() + " به سبد خرید افزوده شد.");
+        }
+        else if (e.getSource() == deleteFromShoppingCartButton){
+            costumer.getShoppingCart().remove(currentProduct);
+            showMessages(currentProduct.getName() + " از سبد خرید حذف شد.");
+        }
+        else if (e.getSource() == profilePageButton){
             profilePage();
         }
-        if (e.getSource() == changePassword){
+        else if (e.getSource() == changePassword){
             changePasswordPage();
         }
-        if (e.getSource() == confirmNewPassword){
+        else if (e.getSource() == confirmNewPassword){
             try {
                 changePasswordAction();
             } catch (IOException ex) {
@@ -455,10 +513,10 @@ public class CostumerGUI extends ShopGUI implements ActionListener {
             showMessages("رمز عبور با موفقیت تغییر کرد.");
             back();
         }
-        if (e.getSource() == increaseBalance){
+        else if (e.getSource() == increaseBalance){
             increaseBalancePage();
         }
-        if (e.getSource() == confirmDeposit){
+        else if (e.getSource() == confirmDeposit){
             try {
                 increaseBalanceAction();
             } catch (IOException ex) {
@@ -466,17 +524,22 @@ public class CostumerGUI extends ShopGUI implements ActionListener {
             }
             showMessages("اعتبار حساب شما افزایش یافت.");
             back();
-
         }
-        if (e.getSource() == exit){
+        else if (e.getSource() == exit){
             welcomePage();
         }
-        if(e.getSource() == backButton){
+        else if(e.getSource() == backButton){
             back();
         }
         for (int i = 0; i < productButtonsList.size(); i++){
             if (e.getSource() == productButtonsList.get(i)){
-                currentProduct = myStore.products.get(i);
+                if (isItAShoppingCartProductInfo) {
+                    currentProduct = costumer.getShoppingCart().get(i);
+                }
+                else {
+                    currentProduct = myStore.products.get(i);
+                }
+                isItAShoppingCartProductInfo = false;
                 productsInfoPage();
                 break;
             }

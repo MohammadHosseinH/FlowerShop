@@ -3,20 +3,20 @@ import java.util.ArrayList;
 
     public class Costumer extends User {
         private double balance;
-        private ArrayList<Product> usersShoppingCart;
+        private ArrayList<Product> shoppingCart = new ArrayList<>();
 
         public Costumer(String name, String userName, String password, String phoneNumber, String address, double balance) {
             super(name, userName, password, phoneNumber, address);
             this.balance = balance;
-            this.usersShoppingCart=getUsersShoppingCart();
+            this.shoppingCart = getShoppingCart();
         }
 
         public double getBalance() {
             return balance;
         }
 
-        public ArrayList<Product> getUsersShoppingCart() {
-            return usersShoppingCart;
+        public ArrayList<Product> getShoppingCart() {
+            return shoppingCart;
         }
 
         public void setBalance(double balance) {
@@ -24,7 +24,7 @@ import java.util.ArrayList;
         }
 
         public void addToShoppingCart(Product product){
-            usersShoppingCart.add(product);
+            shoppingCart.add(product);
         }
 
         public void writeInInfoFile(File usersInfoFile) throws IOException {
@@ -48,14 +48,14 @@ import java.util.ArrayList;
             bufferedReader.close();
             //error handling
             //start from one because at index one is userName
-            if(items.length!=0) {
+            if(items != null) {
                 for (int i = 1; i < items.length; i++) {
                     FileReader fileReader1 = new FileReader(product);
                     BufferedReader bufferedReader1 = new BufferedReader(fileReader);
                     while ((currentLine = bufferedReader1.readLine()) != null) {
                         info = currentLine.split(",");
                         if (info[0].equals(items[i])) {
-                            usersShoppingCart.add(new Product(info[0], Double.parseDouble(info[2]), Integer.parseInt(info[3]), info[1],Integer.parseInt(info[4]),Double.parseDouble(info[5])));
+                            this.shoppingCart.add(new Product(info[0], Double.parseDouble(info[2]), Integer.parseInt(info[3]), info[1],Integer.parseInt(info[4]),Double.parseDouble(info[5])));
                         }
                     }
                     bufferedReader1.close();
@@ -64,8 +64,8 @@ import java.util.ArrayList;
         }
         public Double totalPriceOfShoppingCart(){
             double totalPrice=0.0;
-            for (int i = 0; i < usersShoppingCart.size(); i++) {
-                totalPrice+=usersShoppingCart.get(i).getPrice();
+            for (int i = 0; i < shoppingCart.size(); i++) {
+                totalPrice+= shoppingCart.get(i).getPrice();
             }
             return totalPrice;
         }
@@ -79,8 +79,8 @@ import java.util.ArrayList;
                 while ((currentLine = bufferedReader.readLine()) != null) {
                     info = currentLine.split(",");
                     if (info[0].equals(super.getUserName())) {
-                        for (int i = 0; i < usersShoppingCart.size(); i++) {
-                            currentLine+=usersShoppingCart.get(i).getName();
+                        for (int i = 0; i < shoppingCart.size(); i++) {
+                            currentLine+= shoppingCart.get(i).getName();
                         }
                         lines.add(super.getUserName()+currentLine);
                     } else
@@ -98,9 +98,9 @@ import java.util.ArrayList;
                 BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
                 String info;
                 info = super.getUserName();
-                while (!usersShoppingCart.isEmpty()) {
-                    for (int i = 0; i < usersShoppingCart.size(); i++) {
-                        info = info + "," + usersShoppingCart.get(i).getName();
+                while (!shoppingCart.isEmpty()) {
+                    for (int i = 0; i < shoppingCart.size(); i++) {
+                        info = info + "," + shoppingCart.get(i).getName();
                     }
                 }
                 bufferedWriter.write(info+"\n");

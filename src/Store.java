@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -10,9 +11,8 @@ public class Store {
     ArrayList<Product> sortedProducts = new ArrayList<>();
     ArrayList<Costumer> costumers = new ArrayList<>();
     File userInfo = new File("userInfo.txt");
-    File shoppingCart = new File("shoppingCart.txt");
+    File shoppingCartFile = new File("shoppingCart.txt");
     File productFile = new File("productsFile.txt");
-
 
 
     public void setUsersArray() throws IOException {
@@ -56,7 +56,7 @@ public class Store {
                     check=true;
                 }
             }
-            if(check==false)
+            if(!check)
                 break;
         }
     }
@@ -76,7 +76,7 @@ public class Store {
                     check=true;
                 }
             }
-            if(check==false)
+            if(!check)
                 break;
         }
     }

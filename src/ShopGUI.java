@@ -9,6 +9,7 @@ public class ShopGUI extends JFrame implements ActionListener {
     //Fields and Components
     Product currentProduct;
     ArrayList<JButton> productButtonsList = new ArrayList<>();
+    ArrayList<JButton> shoppingCartButtonsList = new ArrayList<>();
     Store myStore = new Store();
     Manager manager = new Manager("Admin", "admin1", "hello", "09126027358", "Tehran", 0);
     Costumer costumer = new Costumer(null, null, null, null, null, 0);
@@ -259,7 +260,7 @@ public class ShopGUI extends JFrame implements ActionListener {
         errorFrame.setResizable(false);
     }
     public void resetProductInventory() throws IOException {
-        ArrayList<Product> items = costumer.getUsersShoppingCart();
+        ArrayList<Product> items = costumer.getShoppingCart();
         for (int i = 0; i < items.size(); i++){
             items.get(i).changeInventory(myStore.productFile, items.get(i).getInventory()-1);
         }
