@@ -25,6 +25,9 @@ public class CostumerGUI extends ShopGUI implements ActionListener {
     JTextField addingBalance = new JTextField();
     JButton confirmDeposit = new JButton("ثبت");
     JButton exit = new JButton("خروج");
+    JButton rateButton = new JButton("امتیاز دهید");
+    JButton confirmRate = new JButton("ثبت");
+    JTextField costumerRate = new JTextField();
 
 
     CostumerGUI(){
@@ -271,6 +274,12 @@ public class CostumerGUI extends ShopGUI implements ActionListener {
         productInfoPanel.add(priceLabel);
         inventoryLabel.setBounds(300,400,200,20);
         productInfoPanel.add(inventoryLabel);
+        rateButton.setFont(font);
+        rateButton.setBackground(Color.WHITE);
+        rateButton.setBorder(BorderFactory.createLineBorder(new Color(72,61,139)));
+        rateButton.setBounds(60,120, 80,30);
+        rateButton.addActionListener(this);
+        productInfoPanel.add(rateButton);
         addToShoppingCartButton.setBounds(200,450,100,30);
         addToShoppingCartButton.setFont(font);
         addToShoppingCartButton.setBackground(Color.WHITE);
@@ -286,6 +295,34 @@ public class CostumerGUI extends ShopGUI implements ActionListener {
 
         this.getContentPane().removeAll();
         this.add(productInfoPanel);
+        this.repaint();
+        this.revalidate();
+    }
+
+    public void ratePage(){
+        JPanel ratePanel = new JPanel(null);
+        ratePanel.setBackground(backGroundColor);
+
+        JLabel editNameLabel = new JLabel("نمره مورد نظر خود را از 1 تا 10 وارد کنید");
+        editNameLabel.setBounds(120,200,300,30);
+        editNameLabel.setFont(font);
+
+        costumerRate.setBounds(200,275, 100,30);
+        costumerRate.setBorder(BorderFactory.createLineBorder(new Color(72,61,139)));
+
+        confirmRate.setBounds(200,375,100,40);
+        confirmRate.setFont(font);
+        confirmRate.setBorder(BorderFactory.createLineBorder(new Color(72,61,139)));
+        confirmRate.setBackground(Color.WHITE);
+
+
+        ratePanel.add(editNameLabel);
+        ratePanel.add(costumerRate);
+        ratePanel.add(confirmRate);
+
+        confirmRate.addActionListener(this);
+        this.getContentPane().removeAll();
+        this.add(ratePanel);
         this.repaint();
         this.revalidate();
     }
@@ -388,6 +425,20 @@ public class CostumerGUI extends ShopGUI implements ActionListener {
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
+        }
+        if (e.getSource() == rateButton){
+            ratePage();
+        }
+        if (e.getSource() == confirmRate){
+            try {
+                currentProduct.adjustRate(myStore.productFile, Double.parseDouble(costumerRate.getText()));
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+            this.getContentPane().removeAll();
+            productsInfoPage();
+            this.repaint();
+            this.revalidate();
         }
         if (e.getSource() == profilePageButton){
             profilePage();

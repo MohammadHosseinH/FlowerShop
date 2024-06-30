@@ -26,6 +26,13 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
     JButton editInventory = new JButton("تغییر");
     JButton deleteProduct= new JButton("حذف محصول");
     JFileChooser fileChooser = new JFileChooser("images");
+    JTextField newName = new JTextField();
+    JButton confirmNewName = new JButton("ثبت");
+    JTextField newInventory = new JTextField();
+    JButton confirmNewInventory = new JButton("ثبت");
+    JTextField newPrice = new JTextField();
+    JButton confirmNewPrice = new JButton("ثبت");
+
     String path;
 
     ManagerGUI(){
@@ -186,10 +193,16 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
         inventoryField.setText("");
         int numberOfVotes=0;
         double rate=0.0;
-        Product tempProduct = new Product(name,price,inventory,path,numberOfVotes,rate);
-        myStore.products.add(tempProduct);
-        tempProduct.addProductInFile(myStore.productFile);
-        showMessages("کالا با موفقیت افزوده شد");
+        if (!Validator.isProductExist(myStore.productFile, name)){
+            Product tempProduct = new Product(name,price,inventory,path,numberOfVotes,rate);
+            myStore.products.add(tempProduct);
+            tempProduct.addProductInFile(myStore.productFile);
+            showMessages("کالا با موفقیت افزوده شد");
+        }
+        else {
+            showMessages("این محصول قبلا اضافه شده");
+        }
+
     }
 
     public void searchPage(){
@@ -344,6 +357,90 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
         myStore.products.remove(currentProduct);
         back();
     }
+
+    public void editNamePage(){
+        JPanel editName = new JPanel(null);
+        editName.setBackground(backGroundColor);
+
+        JLabel editNameLabel = new JLabel("نام جدید را وارد کنید");
+        editNameLabel.setBounds(180,200,200,30);
+        editNameLabel.setFont(font);
+
+        newName.setBounds(175,275, 150,30);
+        newName.setBorder(BorderFactory.createLineBorder(new Color(72,61,139)));
+
+
+        confirmNewName.setBounds(200,375,100,40);
+        confirmNewName.setFont(font);
+        confirmNewName.setBackground(Color.WHITE);
+        confirmNewName.setBorder(BorderFactory.createLineBorder(new Color(72,61,139)));
+
+
+        editName.add(editNameLabel);
+        editName.add(newName);
+        editName.add(confirmNewName);
+
+        confirmNewName.addActionListener(this);
+        this.getContentPane().removeAll();
+        this.add(editName);
+        this.repaint();
+        this.revalidate();
+    }
+
+    public void editInventoryPage(){
+        JPanel editInventory = new JPanel(null);
+        editInventory.setBackground(backGroundColor);
+
+        JLabel editInventoryLabel = new JLabel("موجودی جدید کالا را وارد کنید");
+        editInventoryLabel.setBounds(160,200,200,30);
+        editInventoryLabel.setFont(font);
+
+        newInventory.setBounds(175,275, 150,30);
+        newInventory.setBorder(BorderFactory.createLineBorder(new Color(72,61,139)));
+
+        confirmNewInventory.setBounds(200,375,100,40);
+        confirmNewInventory.setFont(font);
+        confirmNewInventory.setBackground(Color.WHITE);
+        confirmNewInventory.setBorder(BorderFactory.createLineBorder(new Color(72,61,139)));
+
+        editInventory.add(editInventoryLabel);
+        editInventory.add(newInventory);
+        editInventory.add(confirmNewInventory);
+
+        confirmNewInventory.addActionListener(this);
+        this.getContentPane().removeAll();
+        this.add(editInventory);
+        this.repaint();
+        this.revalidate();
+    }
+
+    public void editPricePage(){
+        JPanel editPrice = new JPanel(null);
+        editPrice.setBackground(backGroundColor);
+
+        JLabel editPriceLabel = new JLabel("قیمت جدید کالا را وارد کنید");
+        editPriceLabel.setBounds(160,200,200,30);
+        editPriceLabel.setFont(font);
+
+        newPrice.setBounds(175,275, 150,30);
+        newPrice.setBorder(BorderFactory.createLineBorder(new Color(72,61,139)));
+
+        confirmNewPrice.setBounds(200,375,100,40);
+        confirmNewPrice.setFont(font);
+        confirmNewPrice.setBackground(Color.WHITE);
+        confirmNewPrice.setBorder(BorderFactory.createLineBorder(new Color(72,61,139)));
+
+        editPrice.add(editPriceLabel);
+        editPrice.add(newPrice);
+        editPrice.add(confirmNewPrice);
+
+        confirmNewPrice.addActionListener(this);
+        this.getContentPane().removeAll();
+        this.add(editPrice);
+        this.repaint();
+        this.revalidate();
+    }
+
     public void back(){
         this.getContentPane().removeAll();
         menuPage();
@@ -363,13 +460,46 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
                 path = "images\\" + chooseImage();
         }
         if (e.getSource() == editName){
-            //TODO
+            editNamePage();
+        }
+        if (e.getSource() == confirmNewName){
+            try {
+                currentProduct.changeName(myStore.productFile , newName.getText());
+                this.getContentPane().removeAll();
+                productsInfoPage();
+                this.repaint();
+                this.revalidate();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
         }
         if (e.getSource() == editPrice){
-            //TODO
+            editPricePage();
+        }
+        if (e.getSource() == confirmNewPrice){
+            try {
+                currentProduct.changePrice(myStore.productFile , Double.parseDouble(newPrice.getText()));
+                this.getContentPane().removeAll();
+                productsInfoPage();
+                this.repaint();
+                this.revalidate();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
         }
         if(e.getSource() == editInventory){
-            //TODO
+            editInventoryPage();
+        }
+        if (e.getSource() == confirmNewInventory){
+            try {
+                currentProduct.changeInventory(myStore.productFile, Integer.parseInt(newInventory.getText()));
+                this.getContentPane().removeAll();
+                productsInfoPage();
+                this.repaint();
+                this.revalidate();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
         }
         if(e.getSource()== deleteProduct){
             try {
