@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 public class Store {
     ArrayList<Product> products = new ArrayList<>();
+    ArrayList<Product> sortedProducts = new ArrayList<>();
     ArrayList<Costumer> costumers = new ArrayList<>();
     File userInfo = new File("userInfo.txt");
     File shoppingCart = new File("shoppingCart.txt");
@@ -37,5 +38,46 @@ public class Store {
             products.add(tempProduct);
         }
         bufferedReader.close();
+    }
+    //bubble sort algorithm.
+    public void sortingProductsByPrice(){
+        sortedProducts=products;
+        Product temp;
+        boolean check;
+        for (int i = 0; i < sortedProducts.size(); i++) {
+            check=false;
+            for (int j = 0; j < sortedProducts.size()- i; j++) {
+                if(j+1> sortedProducts.size()-1)
+                    break;
+                if (sortedProducts.get(j).getPrice() > sortedProducts.get(j+1).getPrice()) {
+                    temp = sortedProducts.get(j);
+                    sortedProducts.add(j,sortedProducts.get(j+1));
+                    sortedProducts.add(j+1,temp);
+                    check=true;
+                }
+            }
+            if(check==false)
+                break;
+        }
+    }
+    public void sortingProductsByRate(){
+        sortedProducts=products;
+        Product temp;
+        boolean check;
+        for (int i = 0; i < sortedProducts.size(); i++) {
+            check=false;
+            for (int j = 0; j < sortedProducts.size()- i; j++) {
+                if(j+1> sortedProducts.size()-1)
+                    break;
+                if (sortedProducts.get(j).getRate() < sortedProducts.get(j+1).getRate()) {
+                    temp = sortedProducts.get(j);
+                    sortedProducts.add(j,sortedProducts.get(j+1));
+                    sortedProducts.add(j+1,temp);
+                    check=true;
+                }
+            }
+            if(check==false)
+                break;
+        }
     }
 }

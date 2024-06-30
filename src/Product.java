@@ -54,6 +54,7 @@ public class Product {
     public void setNumberOfVotes(int numberOfVotes) {
         this.numberOfVotes = numberOfVotes;
     }
+
     //this method helps the manager to change product's name in program and file.
     public void changeName(File products, String name) throws IOException {
         FileReader fileReader= new FileReader(products);
@@ -101,6 +102,7 @@ public class Product {
         }
         bufferedWriter.close();
     }
+
     //this method helps the manager to change product's inventory in program and file.
     //it also reduces product inventory when a costumer buys it.
     public void changeInventory(File products, int inventory) throws IOException {
@@ -149,6 +151,25 @@ public class Product {
         for (int i = 0; i < lines.size(); i++) {
             bufferedWriter.write(lines.get(i)+"\n");
         }
+        bufferedWriter.close();
+    }
+    //to delete a product by manager from file
+    public void deleteProduct(File products) throws IOException {
+        FileReader fileReader = new FileReader(products);
+        BufferedReader bufferedReader = new BufferedReader(fileReader);
+        String currentLine;
+        ArrayList<String> lines = new ArrayList<>();
+        String[] info;
+        while ((currentLine = bufferedReader.readLine()) != null) {
+            info = currentLine.split(",");
+            if (!info[0].equals(name))
+                lines.add(currentLine);
+        }
+        bufferedReader.close();
+        FileWriter fileWriter = new FileWriter(products, false);
+        BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+        for (int i = 0; i < lines.size(); i++)
+            bufferedWriter.write(lines.get(i) + "\n");
         bufferedWriter.close();
     }
 }

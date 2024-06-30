@@ -114,6 +114,7 @@ public class CostumerGUI extends ShopGUI implements ActionListener {
     }
     public void searchPage(){
         JPanel searchPanel = new JPanel(null);
+        searchPanel.setBackground(backGroundColor);
 
         JLabel searchLabel = new JLabel("عبارت مورد نظر را تایپ کنید");
         searchLabel.setFont(font);
@@ -128,6 +129,9 @@ public class CostumerGUI extends ShopGUI implements ActionListener {
         searchButton.addActionListener(this);
         backButton.setBounds(175, 400, 150,30);
         backButton.addActionListener(this);
+        backButton.setBackground(Color.WHITE);
+        backButton.setBorder(BorderFactory.createLineBorder(new Color(72,61,139)));
+
         searchPanel.add(searchLabel);
         searchPanel.add(searchField);
         searchPanel.add(searchButton);

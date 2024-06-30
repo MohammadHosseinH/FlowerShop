@@ -24,6 +24,7 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
     JButton editName = new JButton("تغییر");
     JButton editPrice = new JButton("تغییر");
     JButton editInventory = new JButton("تغییر");
+    JButton deleteProduct= new JButton("حذف محصول");
     JFileChooser fileChooser = new JFileChooser("images");
     String path;
 
@@ -316,18 +317,32 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
         backButton.setBorder(BorderFactory.createLineBorder(new Color(72,61,139)));
 
         productInfoPanel.add(backButton);
+        deleteProduct.setBounds(50,480,100,40);
+        deleteProduct.setFont(font);
+        deleteProduct.setBackground(Color.WHITE);
+        deleteProduct.setBorder(BorderFactory.createLineBorder(new Color(72,61,139)));
+
+        productInfoPanel.add(deleteProduct);
 
         editName.addActionListener(this);
         editPrice.addActionListener(this);
         editInventory.addActionListener(this);
         backButton.addActionListener(this);
+        deleteProduct.addActionListener(this);
 
         this.getContentPane().removeAll();
         this.add(productInfoPanel);
         this.repaint();
         this.revalidate();
     }
-
+    public void deleteProduct() throws IOException {
+        currentProduct.deleteProduct(myStore.productFile);
+        myStore.products.remove(currentProduct);
+        this.getContentPane().removeAll();
+        showProductPage();
+        this.repaint();
+        this.revalidate();
+    }
     public void back(){
         this.getContentPane().removeAll();
         menuPage();
@@ -354,6 +369,13 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
         }
         if(e.getSource() == editInventory){
             //TODO
+        }
+        if(e.getSource()== deleteProduct){
+            try {
+                deleteProduct();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
         }
         if(e.getSource() == backButton){
             back();
