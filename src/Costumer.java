@@ -70,7 +70,7 @@ import java.util.ArrayList;
             return totalPrice;
         }
         public void writeInShoppingCartFile(File shoppingCartFile) throws IOException {
-            if (Validator.isUserExistInShoppingCart(shoppingCartFile, super.getUserName())) {
+            if (Validator.isUserExistInShoppingCart(shoppingCartFile, this.getUserName())) {
                 FileReader fileReader = new FileReader(shoppingCartFile);
                 BufferedReader bufferedReader = new BufferedReader(fileReader);
                 String currentLine;
@@ -78,11 +78,12 @@ import java.util.ArrayList;
                 ArrayList<String> lines = new ArrayList<>();
                 while ((currentLine = bufferedReader.readLine()) != null) {
                     info = currentLine.split(",");
-                    if (info[0].equals(super.getUserName())) {
+                    if (info[0].equals(this.getUserName())) {
+                        currentLine = info[0];
                         for (int i = 0; i < shoppingCart.size(); i++) {
-                            currentLine+= shoppingCart.get(i).getName();
+                            currentLine = currentLine + "," + shoppingCart.get(i).getName();
                         }
-                        lines.add(super.getUserName()+currentLine);
+                        lines.add(this.getUserName()+currentLine);
                     } else
                         lines.add(currentLine);
                 }
@@ -97,11 +98,9 @@ import java.util.ArrayList;
                 FileWriter fileWriter = new FileWriter(shoppingCartFile, true);
                 BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
                 String info;
-                info = super.getUserName();
-                while (!shoppingCart.isEmpty()) {
-                    for (int i = 0; i < shoppingCart.size(); i++) {
-                        info = info + "," + shoppingCart.get(i).getName();
-                    }
+                info = this.getUserName();
+                for (int i = 0; i < shoppingCart.size(); i++) {
+                    info = info + "," + shoppingCart.get(i).getName();
                 }
                 bufferedWriter.write(info+"\n");
                 bufferedWriter.close();

@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.ArrayList;
-
+//This is the super class of our GUI classes
 public class ShopGUI extends JFrame implements ActionListener {
     //Fields and Components
     Product currentProduct;
@@ -40,9 +40,9 @@ public class ShopGUI extends JFrame implements ActionListener {
         this.setResizable(false);
 
         welcomePage();
-
     }
 
+    // Pre-login and Pre-signup page
     public void welcomePage() {
         try {
             myStore.setProductsArray();
@@ -81,7 +81,7 @@ public class ShopGUI extends JFrame implements ActionListener {
         managerLoginButton.addActionListener(this);
 
 
-        }
+    }
 
     public void costumerSignupPage() {
         JPanel signupPanel = new JPanel(null);

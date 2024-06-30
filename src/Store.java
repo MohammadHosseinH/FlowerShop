@@ -41,43 +41,34 @@ public class Store {
     }
     //bubble sort algorithm.
     public void sortingProductsByPrice(){
-        sortedProducts=products;
-        Product temp;
-        boolean check;
-        for (int i = 0; i < sortedProducts.size(); i++) {
-            check=false;
-            for (int j = 0; j < sortedProducts.size()- i; j++) {
-                if(j+1> sortedProducts.size()-1)
-                    break;
-                if (sortedProducts.get(j).getPrice() > sortedProducts.get(j+1).getPrice()) {
-                    temp = sortedProducts.get(j);
-                    sortedProducts.add(j,sortedProducts.get(j+1));
-                    sortedProducts.add(j+1,temp);
-                    check=true;
+        sortedProducts = products;
+        int n = sortedProducts.size();
+        for (int i = 0; i < n - 1; i++) {
+            int maxIndex = i;
+            for (int j = i + 1; j < n; j++) {
+                if (sortedProducts.get(j).getPrice() > sortedProducts.get(maxIndex).getPrice()) {
+                    maxIndex = j;
                 }
             }
-            if(!check)
-                break;
+            // Swap arr[i] and arr[minIndex]
+            Product temp = sortedProducts.get(i);
+            sortedProducts.set(i,sortedProducts.get(maxIndex));
+            sortedProducts.set(maxIndex,temp);
         }
     }
     public void sortingProductsByRate(){
-        sortedProducts=products;
-        Product temp;
-        boolean check;
-        for (int i = 0; i < sortedProducts.size(); i++) {
-            check=false;
-            for (int j = 0; j < sortedProducts.size()- i; j++) {
-                if(j+1> sortedProducts.size()-1)
-                    break;
-                if (sortedProducts.get(j).getRate() < sortedProducts.get(j+1).getRate()) {
-                    temp = sortedProducts.get(j);
-                    sortedProducts.add(j,sortedProducts.get(j+1));
-                    sortedProducts.add(j+1,temp);
-                    check=true;
+        sortedProducts = products;
+        int n = sortedProducts.size();
+        for (int i = 0; i < n - 1; i++) {
+            int maxIndex = i;
+            for (int j = i + 1; j < n; j++) {
+                if (sortedProducts.get(j).getRate() > sortedProducts.get(maxIndex).getRate()) {
+                    maxIndex = j;
                 }
             }
-            if(!check)
-                break;
+            Product temp = sortedProducts.get(i);
+            sortedProducts.set(i, sortedProducts.get(maxIndex));
+            sortedProducts.set(maxIndex, temp);
         }
     }
 }

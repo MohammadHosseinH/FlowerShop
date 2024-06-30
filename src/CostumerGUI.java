@@ -31,7 +31,8 @@ public class CostumerGUI extends ShopGUI implements ActionListener {
     JButton confirmRate = new JButton("ثبت");
     JTextField costumerRate = new JTextField();
     JButton completeShopping = new JButton("نهایی کردن خرید");
-    JButton filterButton = new JButton();
+    JButton filterByPriceButton = new JButton("مرتب سازی بر اساس قیمت");
+    JButton filterByRateButton = new JButton("مرتب سازی بر اساس امتیاز");
     boolean isItShoppingCartList = false;
     boolean isItAShoppingCartProductInfo = false;
     JButton backButton = new JButton("بازگشت");
@@ -54,26 +55,37 @@ public class CostumerGUI extends ShopGUI implements ActionListener {
         showProductsButton.setBorder(BorderFactory.createLineBorder(new Color(72,61,139)));
         menuPanel.add(showProductsButton);
         searchPageButton.setFont(font);
-        searchPageButton.setBounds(150,200,200,40);
+        searchPageButton.setBounds(150,170,200,40);
         searchPageButton.setBackground(Color.WHITE);
         searchPageButton.setBorder(BorderFactory.createLineBorder(new Color(72,61,139)));
         menuPanel.add(searchPageButton);
         profilePageButton.setFont(font);
-        profilePageButton.setBounds(150,300,200,40);
+        profilePageButton.setBounds(150,240,200,40);
         profilePageButton.setBackground(Color.WHITE);
         profilePageButton.setBorder(BorderFactory.createLineBorder(new Color(72,61,139)));
         menuPanel.add(profilePageButton);
         shoppingCartButton.setFont(font);
-        shoppingCartButton.setBounds(150,400,200,40);
+        shoppingCartButton.setBounds(150,310,200,40);
         shoppingCartButton.setBackground(Color.WHITE);
         shoppingCartButton.setBorder(BorderFactory.createLineBorder(new Color(72,61,139)));
         menuPanel.add(shoppingCartButton);
+        filterByPriceButton.setFont(font);
+        filterByPriceButton.setBounds(150,380,200,40);
+        filterByPriceButton.setBackground(Color.WHITE);
+        filterByPriceButton.setBorder(BorderFactory.createLineBorder(new Color(72,61,139)));
+        menuPanel.add(filterByPriceButton);
+        filterByRateButton.setFont(font);
+        filterByRateButton.setBounds(150,450 ,200,40);
+        filterByRateButton.setBackground(Color.WHITE);
+        filterByRateButton.setBorder(BorderFactory.createLineBorder(new Color(72,61,139)));
+        menuPanel.add(filterByRateButton);
 
         showProductsButton.addActionListener(this);
         searchPageButton.addActionListener(this);
         profilePageButton.addActionListener(this);
         shoppingCartButton.addActionListener(this);
-
+        filterByPriceButton.addActionListener(this);
+        filterByRateButton.addActionListener(this);
         this.getContentPane().removeAll();
         this.add(menuPanel);
         this.repaint();
@@ -134,6 +146,7 @@ public class CostumerGUI extends ShopGUI implements ActionListener {
         backButton.addActionListener(this);
         backButton.setBackground(Color.WHITE);
         backButton.setBorder(BorderFactory.createLineBorder(new Color(72,61,139)));
+        backButton.setFont(font);
         scrollPane.setBackground(backGroundColor);
 
         scrollPane.setViewport(viewport);
@@ -493,10 +506,12 @@ public class CostumerGUI extends ShopGUI implements ActionListener {
         else if (e.getSource() == addToShoppingCartButton){
             costumer.addToShoppingCart(currentProduct);
             showMessages(currentProduct.getName() + " به سبد خرید افزوده شد.");
+            back();
         }
         else if (e.getSource() == deleteFromShoppingCartButton){
             costumer.getShoppingCart().remove(currentProduct);
             showMessages(currentProduct.getName() + " از سبد خرید حذف شد.");
+            back();
         }
         else if (e.getSource() == profilePageButton){
             profilePage();
@@ -525,8 +540,23 @@ public class CostumerGUI extends ShopGUI implements ActionListener {
             showMessages("اعتبار حساب شما افزایش یافت.");
             back();
         }
+        else if(e.getSource() == filterByPriceButton){
+            myStore.sortingProductsByPrice();
+            showProductPage(myStore.sortedProducts);
+        }
+        else if (e.getSource() == filterByRateButton) {
+            myStore.sortingProductsByRate();
+            showProductPage(myStore.sortedProducts);
+        }
         else if (e.getSource() == exit){
-            welcomePage();
+            try {
+                costumer.writeInShoppingCartFile(myStore.shoppingCartFile);
+                System.out.println(costumer.getUserName());
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+            this.dispose();
+            new ShopGUI();
         }
         else if(e.getSource() == backButton){
             back();
