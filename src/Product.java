@@ -59,7 +59,6 @@ public class Product {
         FileReader fileReader= new FileReader(products);
         BufferedReader bufferedReader=new BufferedReader(fileReader);
         String currentLine;
-        this.name = name;
         ArrayList<String> lines= new ArrayList<>();
         while ((currentLine=bufferedReader.readLine())!=null){
             if (currentLine.startsWith(this.name)){
@@ -69,6 +68,7 @@ public class Product {
             else
                 lines.add(currentLine);
         }
+        this.name = name;
         bufferedReader.close();
         FileWriter fileWriter = new FileWriter(products, false);
         BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
@@ -128,8 +128,8 @@ public class Product {
     }
     //this method change numberOfVotes and rate in the program and file when a costumer votes.
     public void adjustRate(File products,double newVote) throws IOException {
-        this.rate=(this.rate*this.numberOfVotes+newVote)/(double) this.numberOfVotes;
         this.numberOfVotes=this.numberOfVotes+1;
+        this.rate=((this.rate*(this.numberOfVotes - 1))+newVote)/(double) this.numberOfVotes;
         FileReader fileReader= new FileReader(products);
         BufferedReader bufferedReader=new BufferedReader(fileReader);
         String currentLine;
