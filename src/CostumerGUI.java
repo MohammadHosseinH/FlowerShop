@@ -270,10 +270,6 @@ public class CostumerGUI extends ShopGUI implements ActionListener {
 
     }
 
-    public void shoppingCartPage(){
-        //TODO
-    }
-
     public void productsInfoPage(){
         Product product = currentProduct;
         BufferedImage bufferedImage = null;
@@ -313,20 +309,20 @@ public class CostumerGUI extends ShopGUI implements ActionListener {
         rateButton.addActionListener(this);
         productInfoPanel.add(rateButton);
         if(costumer.getShoppingCart().contains(currentProduct)){
-            deleteFromShoppingCartButton.setBounds(130,450,100,30);
+            deleteFromShoppingCartButton.setBounds(130,450,120,30);
             deleteFromShoppingCartButton.setFont(font);
             deleteFromShoppingCartButton.setBackground(Color.WHITE);
             deleteFromShoppingCartButton.setBorder(BorderFactory.createLineBorder(new Color(72,61,139)));
             productInfoPanel.add(deleteFromShoppingCartButton);
         }
         else {
-            addToShoppingCartButton.setBounds(130, 450, 100, 30);
+            addToShoppingCartButton.setBounds(130, 450, 120, 30);
             addToShoppingCartButton.setFont(font);
             addToShoppingCartButton.setBackground(Color.WHITE);
             addToShoppingCartButton.setBorder(BorderFactory.createLineBorder(new Color(72, 61, 139)));
             productInfoPanel.add(addToShoppingCartButton);
         }
-        backButton.setBounds(200,510,100,30);
+        backButton.setBounds(200,510,120,30);
         backButton.setFont(font);
         backButton.setBackground(Color.WHITE);
         backButton.setBorder(BorderFactory.createLineBorder(new Color(72,61,139)));
@@ -524,6 +520,30 @@ public class CostumerGUI extends ShopGUI implements ActionListener {
             }
             showMessages("اعتبار حساب شما افزایش یافت.");
             back();
+        }
+        else if(e.getSource()==completeShopping){
+            double price= costumer.totalPriceOfShoppingCart();
+            if(price>costumer.getBalance())
+                showMessages("موجودی کافی نیست.");
+            else {
+                try {
+                    resetProductInventory();
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+                costumer.setBalance(costumer.getBalance()-price);
+                price=price*-1;
+                try {
+                    costumer.changeBalance(myStore.userInfo,price);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+                showMessages("خرید با موفقیت انجام شد");
+                this.getContentPane().removeAll();
+                profilePage();
+                this.repaint();
+                this.revalidate();
+            }
         }
         else if (e.getSource() == exit){
             welcomePage();

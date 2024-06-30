@@ -48,7 +48,7 @@ import java.util.ArrayList;
             bufferedReader.close();
             //error handling
             //start from one because at index one is userName
-            if(items != null) {
+            if(items!=null) {
                 for (int i = 1; i < items.length; i++) {
                     FileReader fileReader1 = new FileReader(product);
                     BufferedReader bufferedReader1 = new BufferedReader(fileReader);
@@ -83,7 +83,8 @@ import java.util.ArrayList;
                             currentLine+= shoppingCart.get(i).getName();
                         }
                         lines.add(super.getUserName()+currentLine);
-                    } else
+                    }
+                    else
                         lines.add(currentLine);
                 }
                 bufferedReader.close();
@@ -93,7 +94,8 @@ import java.util.ArrayList;
                     bufferedWriter.write(lines.get(i)+"\n");
                 }
                 bufferedWriter.close();
-            } else {
+            }
+            else {
                 FileWriter fileWriter = new FileWriter(shoppingCartFile, true);
                 BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
                 String info;
