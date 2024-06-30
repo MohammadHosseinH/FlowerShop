@@ -257,28 +257,8 @@ public class ShopGUI extends JFrame implements ActionListener {
     }
     public void resetProductInventory() throws IOException {
         ArrayList<Product> items=costumer.getUsersShoppingCart();
-        FileReader fileReader= new FileReader(myStore.productFile);
-        BufferedReader bufferedReader= new BufferedReader(fileReader);
-        String currentLine;
-        String[] info;
-        ArrayList<String> lines = new ArrayList<>();
         for (int i = 0; i < items.size(); i++) {
-            while ((currentLine = bufferedReader.readLine()) != null) {
-                info = currentLine.split(",");
-                if (info[0].equals(items.get(i).getName())) {
-                    items.get(i).setInventory(items.get(i).getInventory()-1);
-                    lines.add(info[0] + "," + info[1] +","+ info[2]+","+items.get(i).getInventory());
-                } else {
-                    lines.add(currentLine);
-                }
-                bufferedReader.close();
-                FileWriter fileWriter = new FileWriter(myStore.userInfo, false);
-                BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-                for (int j = 0; j < lines.size(); j++) {
-                    bufferedWriter.write(lines.get(j));
-                }
-                bufferedWriter.close();
-            }
+            items.get(i).changeInventory(productFile, items.get(i).getInventory()-1);
         }
     }
         @Override

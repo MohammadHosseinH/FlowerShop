@@ -179,7 +179,9 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
         String name = productNameField.getText();
         double price = Double.parseDouble(priceField.getText());
         int inventory = Integer.parseInt(inventoryField.getText());
-        Product tempProduct = new Product(name,price,inventory,path);
+        int numberOfVotes=0;
+        double rate=0.0;
+        Product tempProduct = new Product(name,price,inventory,path,numberOfVotes,rate);
         myStore.products.add(tempProduct);
         tempProduct.addProductInFile(myStore.productFile);
         showMessages("کالا با موفقیت افزوده شد");
