@@ -245,7 +245,7 @@ public class CostumerGUI extends ShopGUI implements ActionListener {
     }
 
     public void shoppingCartPage(){
-
+        //TODO
     }
 
     public void productsInfoPage(){
