@@ -141,6 +141,7 @@ public class ShopGUI extends JFrame implements ActionListener {
         if ((!Validator.isUserExist(myStore.userInfo, userName)) && Validator.validatePassword(passWord) && Validator.checkPhoneNumber(phoneNumber)) {
             costumer = new Costumer(userName, name, passWord, phoneNumber, address, 0);
             costumer.writeInInfoFile(myStore.userInfo);
+            this.dispose();
             new CostumerGUI();
         } else
             showMessages("* این نام کاربری توسط کاربر دیگری انتخاب شده است." + "<br>" +
@@ -186,6 +187,7 @@ public class ShopGUI extends JFrame implements ActionListener {
         if (Validator.logInCheck(myStore.userInfo, userName, password)) {
             String[] info = showInfo(myStore.userInfo, userName);
             costumer = new Costumer(info[0], info[1], info[2], info[3], info[4], Double.parseDouble(info[5]));
+            this.dispose();
             new CostumerGUI();
         } else
             showMessages("رمز عبور یا نام کاربری اشتباه است.");
@@ -237,6 +239,7 @@ public class ShopGUI extends JFrame implements ActionListener {
 
     public void managerLogin() {
         if (userNameField.getText().equals(manager.getUserName()) && passwordField.getText().equals(manager.getPassword())) {
+            this.dispose();
             new ManagerGUI();
         } else {
             showMessages("رمز عبور یا نام کاربری اشتباه است.");
@@ -256,8 +259,8 @@ public class ShopGUI extends JFrame implements ActionListener {
         errorFrame.setResizable(false);
     }
     public void resetProductInventory() throws IOException {
-        ArrayList<Product> items=costumer.getUsersShoppingCart();
-        for (int i = 0; i < items.size(); i++) {
+        ArrayList<Product> items = costumer.getUsersShoppingCart();
+        for (int i = 0; i < items.size(); i++){
             items.get(i).changeInventory(myStore.productFile, items.get(i).getInventory()-1);
         }
     }

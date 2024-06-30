@@ -10,7 +10,7 @@ public class Product {
     private double rate;
     public Product(String name, double price, int inventory, String imagePath, int numberOfVotes, double rate) throws IOException {
         this.name = name;
-        this.price = price;
+        this.price = price ;
         this.inventory = inventory;
         this.imagePath = imagePath;
         this.numberOfVotes=numberOfVotes;

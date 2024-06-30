@@ -24,7 +24,7 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
     JButton editName = new JButton("تغییر");
     JButton editPrice = new JButton("تغییر");
     JButton editInventory = new JButton("تغییر");
-    JFileChooser fileChooser = new JFileChooser("images");
+    JFileChooser fileChooser;
     String path;
 
     ManagerGUI(){
@@ -68,19 +68,19 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
         this.repaint();
         this.revalidate();
     }
-    public void showProductPage(){
+    public void showProductPage(ArrayList<Product> givenProduct){
         MyScrollable mainScrollable = new MyScrollable("Main Scrollable");
         this.getContentPane().removeAll();
         mainScrollable.setLayout(new GridLayout(0, 1));
         productButtonsList = new ArrayList<>();
-        for (Product p : myStore.products) {
+        for (Product p : givenProduct) {
             String name = p.getName();
             productButton = new JButton();
             productButton.setText(name);
             productButton.setLayout(new BorderLayout());
             productButton.setBackground(Color.WHITE);
             productButton.setBorder(BorderFactory.createLineBorder(new Color(72,61,139)));
-
+            productButton.setPreferredSize(new Dimension(200, 40));
             mainScrollable.add(productButton);
             productButton.addActionListener(this);
             productButtonsList.add(productButton);
@@ -158,6 +158,7 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
         addProductPanel.add(chooseImageButton);
         addProductPanel.add(confirmAddProduct);
         addProductPanel.add(backButton);
+
         this.getContentPane().removeAll();
         this.add(addProductPanel);
         this.repaint();
@@ -165,6 +166,7 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
     }
 
     public String chooseImage(){
+        fileChooser = new JFileChooser("images");
         fileChooser.setAcceptAllFileFilterUsed(false);
         File file = null;
         int option = fileChooser.showOpenDialog(ManagerGUI.this);
@@ -172,18 +174,21 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
             file = fileChooser.getSelectedFile();
         }
         return file.getName();
-
     }
 
     public void addProduct() throws IOException {
         String name = productNameField.getText();
+        productNameField.setText("");
         double price = Double.parseDouble(priceField.getText());
+        priceField.setText("");
         int inventory = Integer.parseInt(inventoryField.getText());
+        inventoryField.setText("");
         int numberOfVotes=0;
         double rate=0.0;
         Product tempProduct = new Product(name,price,inventory,path,numberOfVotes,rate);
         myStore.products.add(tempProduct);
         tempProduct.addProductInFile(myStore.productFile);
+        path = null;
         showMessages("کالا با موفقیت افزوده شد");
     }
 
@@ -338,13 +343,13 @@ public class ManagerGUI extends ShopGUI implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == showProductsButton){
-            showProductPage();
+            showProductPage(myStore.products);
         }
         if(e.getSource() == addProductButton){
             addProductPage();
         }
-        if(e.getSource() == chooseImageButton){
-            path = "images\\" + chooseImage();
+        if (e.getSource() == chooseImageButton) {
+                path = "images\\" + chooseImage();
         }
         if (e.getSource() == editName){
             //TODO

@@ -67,19 +67,19 @@ public class CostumerGUI extends ShopGUI implements ActionListener {
 
     }
 
-    public void showProductPage(){
+    public void showProductPage(ArrayList<Product> givenProducts){
         MyScrollable mainScrollable = new MyScrollable("Main Scrollable");
         this.getContentPane().removeAll();
         mainScrollable.setLayout(new GridLayout(0, 1));
         productButtonsList = new ArrayList<>();
-        for (Product p : myStore.products) {
+        for (Product p : givenProducts) {
             String name = p.getName();
             productButton = new JButton();
             productButton.setText(name);
             productButton.setLayout(new BorderLayout());
             productButton.setBackground(Color.WHITE);
             productButton.setBorder(BorderFactory.createLineBorder(new Color(72,61,139)));
-
+            productButton.setPreferredSize(new Dimension(200, 30));
             mainScrollable.add(productButton);
             productButton.addActionListener(this);
             productButtonsList.add(productButton);
@@ -238,7 +238,7 @@ public class CostumerGUI extends ShopGUI implements ActionListener {
     }
 
     public void shoppingCartPage(){
-        //TODO
+
     }
 
     public void productsInfoPage(){
@@ -373,7 +373,7 @@ public class CostumerGUI extends ShopGUI implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == showProductsButton){
-            showProductPage();
+            showProductPage(myStore.products);
         }
         if (e.getSource() == searchPageButton){
             searchPage();
